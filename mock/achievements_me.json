@@ -1,0 +1,66 @@
+<pre>{
+  "profile": {
+    "uid": "JK10086",
+    "nickname": "河上风",
+    "gender": "M",
+    "birth_year": 1995,
+    "city": "广州",
+    "avatar": "https://picsum.photos/seed/athlete/200",
+    "privacy": "public"
+  },
+  "achievements": [
+    {
+      "event_id": "db-2025-gz-qdhu",
+      "event_name": "2025 广州千灯湖龙舟邀请赛",
+      "date": "2025-10-19",
+      "city": "广州",
+      "venue": "千灯湖",
+      "category": "200m 公开组",
+      "distance": "200m",
+      "rank": 2,
+      "time_ms": 49321,
+      "pb": true,
+      "certificate_url": "https://picsum.photos/seed/cert1/800/1132",
+      "certificate_thumb": "https://picsum.photos/seed/cert1/400/566",
+      "cover": "https://picsum.photos/seed/db1/600/360",
+      "note": "风力较大，逆风。"
+    },
+    {
+      "event_id": "row-2025-sh-outer",
+      "event_name": "上海外滩赛艇挑战赛",
+      "date": "2025-10-05",
+      "city": "上海",
+      "venue": "黄浦江",
+      "category": "单人双桨",
+      "distance": "500m",
+      "rank": 5,
+      "time_ms": 124532,
+      "cover": "https://picsum.photos/seed/row1/600/360"
+    },
+    {
+      "event_id": "row-2025-gz-baiyun",
+      "event_name": "白云湖赛艇联赛（第二站）",
+      "date": "2025-11-22",
+      "city": "广州",
+      "venue": "白云湖",
+      "category": "双人双桨",
+      "distance": "500m",
+      "time_ms": 118231,
+      "cover": "https://picsum.photos/seed/row2/600/360"
+    },
+    {
+      "event_id": "canoe-2025-hz-xihu",
+      "event_name": "杭州西湖皮划艇短距离赛",
+      "date": "2025-09-20",
+      "city": "杭州",
+      "venue": "西湖",
+      "category": "皮艇男子",
+      "distance": "200m",
+      "rank": 1,
+      "time_ms": 48210,
+      "certificate_url": "https://picsum.photos/seed/cert2/800/1132",
+      "certificate_thumb": "https://picsum.photos/seed/cert2/400/566",
+      "cover": "https://picsum.photos/seed/canoe1/600/360"
+    }
+  ]
+}</pre>

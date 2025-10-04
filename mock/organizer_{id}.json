@@ -1,0 +1,51 @@
+<pre>{
+  "id": "org-jk-demo",
+  "name": "桨刻赛事组委会",
+  "logo": "https://picsum.photos/seed/orgjk/200",
+  "city": "广州",
+  "type": "社会组织",
+  "founded": 2022,
+  "badges": ["实名认证", "优质主办"],
+  "intro": "专注于龙舟、赛艇与桨板赛事的组织与服务，已成功举办多场区域性与全国性赛事。",
+  "contact": {
+    "site": "https://jiangke.net",
+    "email": "contact@jiangke.net",
+    "phone": "020-12345678",
+    "wechat": "jiangke_official",
+    "wechat_qr": "https://picsum.photos/seed/qrcode/200"
+  },
+  "certs": [
+    { "name": "组织者责任险", "no": "ZRX-2025-0001" },
+    { "name": "数据安全评估备案", "no": "DSA-2025-8890" }
+  ],
+  "events": [
+    {
+      "id": "db-2025-gz-qdhu",
+      "name": "2025 广州千灯湖龙舟邀请赛",
+      "city": "广州",
+      "venue": "千灯湖",
+      "start_date": "2025-10-18",
+      "end_date": "2025-10-19",
+      "status": "signup",
+      "cover": "https://picsum.photos/seed/db1/400/240"
+    },
+    {
+      "id": "row-2025-gz-baiyun",
+      "name": "白云湖赛艇联赛（第二站）",
+      "city": "广州",
+      "venue": "白云湖",
+      "start_date": "2025-11-22",
+      "status": "signup",
+      "cover": "https://picsum.photos/seed/row2/400/240"
+    },
+    {
+      "id": "canoe-2025-hz-xihu",
+      "name": "杭州西湖皮划艇短距离赛",
+      "city": "杭州",
+      "venue": "西湖",
+      "start_date": "2025-09-20",
+      "status": "finished",
+      "cover": "https://picsum.photos/seed/canoe1/400/240"
+    }
+  ]
+}</pre>

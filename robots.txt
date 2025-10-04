@@ -1,0 +1,8 @@
+<pre># robots.txt for Jiangke
+User-agent: *
+Disallow: /mock/
+Disallow: /admin/
+Allow: /
+
+Sitemap: https://your-domain.com/sitemap.xml
+</pre>

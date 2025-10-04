@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="zh-HK">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>主办方方案与价格 · 桨刻 Jiangke</title>
+    <meta
+      name="description"
+      content="为赛事主办方提供报名、编排、裁判、计时、证书、直播一体化数字化方案。"
+    />
+    <link rel="stylesheet" href="./styles.css" />
+    <link rel="stylesheet" href="./assets/c-portal.css" />
+    <style>
+      .hero {
+        padding: 32px 0 16px;
+        text-align: center;
+      }
+      .hero h1 {
+        margin: 0 0 8px;
+        font-size: 28px;
+      }
+      .hero p {
+        margin: 0 auto;
+        color: var(--muted);
+        max-width: 720px;
+      }
+      .features {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 12px;
+      }
+      .feature {
+        border: 1px solid var(--border);
+        border-radius: 12px;
+        padding: 14px;
+        background: rgba(255, 255, 255, 0.03);
+      }
+      .pricing {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 12px;
+      }
+      .plan {
+        border: 1px solid var(--border);
+        border-radius: 12px;
+        padding: 14px;
+        background: rgba(255, 255, 255, 0.04);
+        display: grid;
+        gap: 10px;
+      }
+      .plan h3 {
+        margin: 0;
+      }
+      .plan .price {
+        font-size: 22px;
+        font-weight: 700;
+      }
+      .plan ul {
+        margin: 0;
+        padding-left: 18px;
+      }
+      .cta {
+        text-align: center;
+        margin-top: 16px;
+      }
+      .logos {
+        display: grid;
+        grid-template-columns: repeat(6, 1fr);
+        gap: 12px;
+        align-items: center;
+      }
+      .logos img {
+        width: 100%;
+        height: 48px;
+        object-fit: contain;
+        filter: grayscale(1);
+        opacity: 0.9;
+      }
+      @media (max-width: 900px) {
+        .features {
+          grid-template-columns: 1fr;
+        }
+        .pricing {
+          grid-template-columns: 1fr;
+        }
+        .logos {
+          grid-template-columns: repeat(3, 1fr);
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <header class="site-header">
+      <div class="container">
+        <a class="brand" href="./index.html">桨刻 Jiangke</a>
+        <nav class="nav">
+          <a href="./events/index.html">赛事</a>
+          <a href="./me/achievements.html">战绩</a>
+          <a href="./organizer.html" class="active">主办方</a>
+          <a href="./create-event.html">创建赛事</a>
+        </nav>
+      </div>
+    </header>
+
+    <main class="container">
+      <section class="hero">
+        <h1>一体化赛事数字化方案</h1>
+        <p>
+          从报名、名单、分组编排、检录到电计时、成绩公示与电子证书，桨刻为龙舟、赛艇、皮划艇与桨板赛事提供全流程工具与服务。
+        </p>
+        <div class="cta" style="margin-top: 12px">
+          <a class="btn primary" href="./create-event.html">立即开通</a>
+          <a class="btn" href="mailto:bd@jiangke.net?subject=预约演示"
+            >预约演示</a
+          >
+        </div>
+      </section>
+
+      <section class="card">
+        <h2 style="margin: 0 0 8px">核心能力</h2>
+        <div class="features">
+          <div class="feature">
+            <h3>报名与支付</h3>
+            <p class="muted">
+              支持个人/团队报名、问卷扩展、优惠码、发票与结算。
+            </p>
+          </div>
+          <div class="feature">
+            <h3>编排与裁判台</h3>
+            <p class="muted">
+              分组/分道/晋级模板，检录与违规记录，支持现场离线模式。
+            </p>
+          </div>
+          <div class="feature">
+            <h3>计时与成绩</h3>
+            <p class="muted">
+              对接计时设备，毫秒级成绩入库，自动榜单与电子证书。
+            </p>
+          </div>
+          <div class="feature">
+            <h3>品牌与宣传</h3>
+            <p class="muted">
+              赛事首页、直播面板、相册与战报，一键生成媒体素材。
+            </p>
+          </div>
+          <div class="feature">
+            <h3>风控与合规</h3>
+            <p class="muted">
+              实名校验、黑名单、退票规则，支持隐私合规与数据备份。
+            </p>
+          </div>
+          <div class="feature">
+            <h3>数据洞察</h3>
+            <p class="muted">报名趋势、到场率、完赛率、赞助曝光等报表导出。</p>
+          </div>
+        </div>
+      </section>
+
+      <section class="card">
+        <h2 style="margin: 0 0 8px">价格与版本</h2>
+        <div class="pricing">
+          <div class="plan">
+            <h3>Basic</h3>
+            <div class="price">¥99/场 起</div>
+            <ul>
+              <li>报名与名单管理</li>
+              <li>基础编排与成绩公示</li>
+              <li>标准证书</li>
+            </ul>
+            <a class="btn primary" href="./create-event.html">立即开通</a>
+          </div>
+          <div class="plan">
+            <h3>Pro</h3>
+            <div class="price">¥4,999/年</div>
+            <ul>
+              <li>高级编排（分组/分道/晋级）</li>
+              <li>裁判台与设备对接</li>
+              <li>品牌皮肤与高级证书</li>
+              <li>较低交易抽佣</li>
+            </ul>
+            <a
+              class="btn primary"
+              href="mailto:bd@jiangke.net?subject=Pro试用申请"
+              >申请试用</a
+            >
+          </div>
+          <div class="plan">
+            <h3>Enterprise</h3>
+            <div class="price">定制报价</div>
+            <ul>
+              <li>多赛并发与权限体系</li>
+              <li>专属域名/私有化部署</li>
+              <li>SLA 与现场技术支持</li>
+            </ul>
+            <a class="btn" href="mailto:bd@jiangke.net?subject=Enterprise咨询"
+              >联系我们</a
+            >
+          </div>
+        </div>
+      </section>
+
+      <section class="card">
+        <h2 style="margin: 0 0 8px">案例与口碑</h2>
+        <div class="logos">
+          <img src="https://picsum.photos/seed/logo1/200/80" alt="logo" />
+          <img src="https://picsum.photos/seed/logo2/200/80" alt="logo" />
+          <img src="https://picsum.photos/seed/logo3/200/80" alt="logo" />
+          <img src="https://picsum.photos/seed/logo4/200/80" alt="logo" />
+          <img src="https://picsum.photos/seed/logo5/200/80" alt="logo" />
+          <img src="https://picsum.photos/seed/logo6/200/80" alt="logo" />
+        </div>
+        <div class="cta">
+          <a class="btn primary" href="./create-event.html">创建首场赛事</a>
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <div class="container">
+        <div>© 2025 桨刻 · 水上赛事平台</div>
+        <div class="muted">
+          由 ××文化科技有限公司提供服务 · 备案号 粤ICP备XXXX号
+        </div>
+      </div>
+    </footer>
+  </body>
+</html>

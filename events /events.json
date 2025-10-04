@@ -1,0 +1,44 @@
+{
+  "events": [
+    {
+      "id": "ev_2025_lz_open",
+      "name": "2025 龙舟公开赛（春季站）",
+      "status": "signup",
+      "start_date": "2025-04-20",
+      "end_date": "2025-04-21",
+      "city": "广州·番禺"
+    },
+    {
+      "event_id": "ev_2025_row_summer",
+      "event_name": "2025 赛艇夏季挑战赛",
+      "status": "soon",
+      "start_date": "2025-06-08",
+      "end_date": "2025-06-08",
+      "city": "苏州·金鸡湖"
+    },
+    {
+      "id": "ev_2025_dragon_500",
+      "name": "龙舟 500m 冠军赛",
+      "status": "ongoing",
+      "start_date": "2025-05-18",
+      "end_date": "2025-05-19",
+      "city": "佛山·顺德"
+    },
+    {
+      "id": "ev_2024_row_final",
+      "name": "2024 赛艇年度总决赛",
+      "status": "finished",
+      "start_date": "2024-11-30",
+      "end_date": "2024-12-01",
+      "city": "杭州·千岛湖"
+    },
+    {
+      "id": "ev_2025_coastal",
+      "name": "2025 滨海赛艇公开水域赛",
+      "status": "signup",
+      "start_date": "2025-07-12",
+      "end_date": "2025-07-13",
+      "city": "青岛·黄岛"
+    }
+  ]
+}

@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="zh-HK">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>帮助中心 · 桨刻 Jiangke</title>
+    <meta
+      name="description"
+      content="关于报名、编排、裁判台、计时、证书等常见问题与操作指南。"
+    />
+    <link rel="stylesheet" href="../styles.css" />
+    <link rel="stylesheet" href="../assets/c-portal.css" />
+    <style>
+      .search {
+        display: flex;
+        gap: 8px;
+      }
+      .search input {
+        flex: 1;
+        padding: 10px;
+        border-radius: 10px;
+        border: 1px solid var(--border);
+        background: rgba(255, 255, 255, 0.03);
+        color: var(--text);
+      }
+      .grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 12px;
+        margin-top: 12px;
+      }
+      .card-sm {
+        border: 1px solid var(--border);
+        border-radius: 12px;
+        padding: 12px;
+        background: rgba(255, 255, 255, 0.03);
+      }
+      .card-sm h3 {
+        margin: 0 0 6px;
+        font-size: 18px;
+      }
+      .list {
+        display: grid;
+        gap: 6px;
+      }
+      @media (max-width: 900px) {
+        .grid {
+          grid-template-columns: 1fr;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <header class="site-header">
+      <div class="container">
+        <a class="brand" href="../index.html">桨刻 Jiangke</a>
+        <nav class="nav">
+          <a href="../events/index.html">赛事</a>
+          <a href="../me/achievements.html">战绩</a>
+          <a href="../organizer.html">主办方</a>
+          <a href="./index.html" class="active">帮助</a>
+        </nav>
+      </div>
+    </header>
+
+    <main class="container">
+      <section class="card">
+        <div class="search">
+          <input id="q" placeholder="搜索问题，例如：如何导出证书" />
+          <button class="btn" id="search">搜索</button>
+        </div>
+      </section>
+
+      <section class="grid" id="cats">
+        <!-- 类目卡片 -->
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <div class="container">
+        <div>© 2025 桨刻 · 水上赛事平台</div>
+        <div class="muted">
+          由 ××文化科技有限公司提供服务 · 备案号 粤ICP备XXXX号
+        </div>
+      </div>
+    </footer>
+
+    <script>
+      const data = {
+        cats: [
+          {
+            id: "signup",
+            name: "报名与支付",
+            articles: [
+              {
+                id: "a1",
+                title: "如何设置报名问卷",
+                href: "./article.html?id=a1",
+              },
+              {
+                id: "a2",
+                title: "退款与改签说明",
+                href: "./article.html?id=a2",
+              },
+            ],
+          },
+          {
+            id: "arrange",
+            name: "编排与裁判台",
+            articles: [
+              {
+                id: "a3",
+                title: "如何分组与分道",
+                href: "./article.html?id=a3",
+              },
+              { id: "a4", title: "晋级规则模板", href: "./article.html?id=a4" },
+            ],
+          },
+          {
+            id: "timing",
+            name: "计时与成绩",
+            articles: [
+              { id: "a5", title: "连接计时设备", href: "./article.html?id=a5" },
+              { id: "a6", title: "发布电子证书", href: "./article.html?id=a6" },
+            ],
+          },
+        ],
+      };
+
+      const cats = document.getElementById("cats");
+      cats.innerHTML = data.cats
+        .map(
+          (c) => `
+        <div class="card-sm">
+          <h3>${c.name}</h3>
+          <div class="list">
+            ${c.articles
+              .map((a) => `<a href="${a.href}">${a.title}</a>`)
+              .join("")}
+          </div>
+        </div>
+      `
+        )
+        .join("");
+
+      document.getElementById("search").addEventListener("click", () => {
+        const q = (document.getElementById("q").value || "")
+          .trim()
+          .toLowerCase();
+        if (!q) return;
+        const found = [];
+        data.cats.forEach((c) =>
+          c.articles.forEach((a) => {
+            if (a.title.toLowerCase().includes(q)) found.push(a);
+          })
+        );
+        if (!found.length) {
+          alert("未找到相关内容，试试其他关键词");
+        } else {
+          // 简单跳转第一条
+          location.href = found[0].href;
+        }
+      });
+    </script>
+  </body>
+</html>

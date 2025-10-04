@@ -1,0 +1,468 @@
+<!DOCTYPE html>
+<html lang="zh-HK">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>赛事详情 · 桨刻 Jiangke</title>
+    <meta
+      name="description"
+      content="赛事详情、规程、报名入口、赛程分组与往届成绩。"
+    />
+    <link rel="stylesheet" href="../styles.css" />
+    <link rel="stylesheet" href="../assets/c-portal.css" />
+    <style>
+      .event-hero {
+        display: grid;
+        grid-template-columns: 1.6fr 1fr;
+        gap: 16px;
+        align-items: start;
+      }
+      .event-hero .cover {
+        border-radius: 12px;
+        overflow: hidden;
+        border: 1px solid var(--border);
+      }
+      .event-hero .cover img {
+        width: 100%;
+        height: 320px;
+        object-fit: cover;
+        display: block;
+      }
+      .event-hero .meta {
+        display: grid;
+        gap: 10px;
+      }
+      .kv {
+        display: grid;
+        gap: 6px;
+      }
+      .kv .row {
+        display: flex;
+        gap: 8px;
+        color: var(--muted);
+      }
+      .actions {
+        display: flex;
+        gap: 8px;
+        flex-wrap: wrap;
+      }
+      .section {
+        margin-top: 16px;
+      }
+      .section h2 {
+        margin: 0 0 8px;
+        font-size: 18px;
+      }
+      .doc-list {
+        display: grid;
+        gap: 8px;
+      }
+      .doc-item {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 10px;
+        border: 1px solid var(--border);
+        border-radius: 10px;
+      }
+      .grid-2 {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 12px;
+      }
+      .table {
+        width: 100%;
+        border-collapse: collapse;
+      }
+      .table th,
+      .table td {
+        padding: 8px 10px;
+        border-bottom: 1px solid var(--border);
+        text-align: left;
+      }
+      .badge-inline {
+        margin-left: 8px;
+      }
+      .empty {
+        color: var(--muted);
+        padding: 6px 0;
+      }
+      @media (max-width: 900px) {
+        .event-hero {
+          grid-template-columns: 1fr;
+        }
+        .event-hero .cover img {
+          height: 220px;
+        }
+        .grid-2 {
+          grid-template-columns: 1fr;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <header class="site-header">
+      <div class="container">
+        <a class="brand" href="../index.html">桨刻 Jiangke</a>
+        <nav class="nav">
+          <a href="./index.html">赛事</a>
+          <a href="../me/achievements.html">战绩</a>
+          <a href="../events/index.html#subscribe">订阅</a>
+          <a href="../create-event.html">主办方入口</a>
+        </nav>
+      </div>
+    </header>
+
+    <main class="container">
+      <section class="page-header">
+        <a class="btn" href="./index.html">← 返回赛事列表</a>
+      </section>
+
+      <section class="card" id="detail">
+        <!-- 顶部概要 -->
+        <div class="event-hero">
+          <div class="cover"><img id="cover" src="" alt="赛事封面" /></div>
+          <div class="meta">
+            <h1 id="title" style="margin: 0 0 8px">赛事名称</h1>
+            <div>
+              <span id="status-badge" class="badge"></span>
+              <span id="sport-badge" class="badge badge-outline"></span>
+              <span
+                id="featured-badge"
+                class="badge badge-outline"
+                style="display: none"
+                >推荐</span
+              >
+            </div>
+            <div class="kv">
+              <div class="row">
+                <strong>时间</strong><span id="date"></span>
+              </div>
+              <div class="row">
+                <strong>地点</strong><span id="place"></span>
+              </div>
+              <div class="row">
+                <strong>主办方</strong
+                ><a id="org" href="#" target="_blank" rel="nofollow noopener"
+                  >-</a
+                >
+              </div>
+            </div>
+            <div class="actions">
+              <a
+                class="btn primary"
+                id="signup"
+                href="#"
+                target="_blank"
+                rel="nofollow"
+                >立即报名</a
+              >
+              <button class="btn" id="fav-btn">收藏</button>
+              <button class="btn" id="follow-btn">订阅</button>
+              <a
+                class="btn"
+                id="rule-btn"
+                href="#"
+                target="_blank"
+                rel="noopener"
+                >竞赛规程</a
+              >
+            </div>
+            <div class="muted" id="price"></div>
+          </div>
+        </div>
+
+        <!-- 介绍与资料 -->
+        <div class="section grid-2">
+          <div>
+            <h2>赛事介绍</h2>
+            <div id="intro" class="muted"></div>
+          </div>
+          <div>
+            <h2>资料下载</h2>
+            <div id="docs" class="doc-list"></div>
+          </div>
+        </div>
+
+        <!-- 赛程与分组 -->
+        <div class="section">
+          <h2>赛程与分组</h2>
+          <div id="schedule"></div>
+        </div>
+
+        <!-- 成绩与相册摘要 -->
+        <div class="section grid-2">
+          <div>
+            <h2>往届成绩</h2>
+            <div id="history"></div>
+          </div>
+          <div>
+            <h2>相册</h2>
+            <div id="album"></div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <div class="container">
+        <div>© 2025 桨刻 · 水上赛事平台</div>
+        <div class="muted">
+          由 ××文化科技有限公司提供服务 · 备案号 粤ICP备XXXX号
+        </div>
+      </div>
+    </footer>
+
+    <script>
+      const fetchBase = "../mock";
+      const params = new URLSearchParams(location.search);
+      const id = params.get("id");
+
+      if (!id) {
+        alert("缺少赛事ID");
+        location.href = "./index.html";
+      }
+
+      const mapSport = {
+        dragonboat: "龙舟",
+        rowing: "赛艇",
+        canoe: "皮划艇",
+        sup: "桨板",
+      };
+      function badgeByStatus(status) {
+        switch (status) {
+          case "signup":
+            return { text: "报名中", className: "tag-success" };
+          case "soon":
+            return { text: "即将开赛", className: "tag-warn" };
+          case "ongoing":
+            return { text: "进行中", className: "tag-warn" };
+          case "finished":
+            return { text: "已完赛", className: "tag-danger" };
+          default:
+            return { text: "未知", className: "" };
+        }
+      }
+      function favKey() {
+        return "jk_favs";
+      }
+      function getFavs() {
+        try {
+          return JSON.parse(localStorage.getItem(favKey()) || "[]");
+        } catch {
+          return [];
+        }
+      }
+      function isFav(x) {
+        return getFavs().includes(x);
+      }
+      function toggleFav(x) {
+        const fs = getFavs();
+        const i = fs.indexOf(x);
+        i >= 0 ? fs.splice(i, 1) : fs.push(x);
+        localStorage.setItem(favKey(), JSON.stringify(fs));
+      }
+
+      async function loadDetail() {
+        try {
+          // 先尝试按单个文件加载；若不存在，可退回到 events.json 里查找
+          const url = `${fetchBase}/event_${encodeURIComponent(
+            id
+          )}.json?_=${Date.now()}`;
+          const res = await fetch(url);
+          let ev;
+          if (res.ok) {
+            ev = await res.json();
+          } else {
+            // fallback
+            const list = await (await fetch(`${fetchBase}/events.json`)).json();
+            ev = (list.events || []).find((e) => e.id === id);
+          }
+          if (!ev) throw new Error("未找到赛事");
+
+          render(ev);
+        } catch (e) {
+          console.error(e);
+          document.querySelector("#detail").innerHTML =
+            '<div class="empty">加载失败或赛事不存在。</div>';
+        }
+      }
+
+      function render(ev) {
+        document.title = `${ev.name} · 赛事详情 · 桨刻`;
+        document.querySelector("#cover").src =
+          ev.cover || "https://picsum.photos/seed/jk/1200/600";
+        document.querySelector("#cover").alt = ev.name + " 封面";
+        document.querySelector("#title").textContent = ev.name;
+
+        const sb = badgeByStatus(ev.status);
+        const sbEl = document.querySelector("#status-badge");
+        sbEl.className = "badge " + sb.className;
+        sbEl.textContent = sb.text;
+
+        const sp = document.querySelector("#sport-badge");
+        sp.textContent = mapSport[ev.sport] || "综合";
+
+        document.querySelector("#featured-badge").style.display = ev.featured
+          ? "inline-block"
+          : "none";
+
+        const dateRange =
+          ev.end_date && ev.end_date !== ev.start_date
+            ? `${ev.start_date} - ${ev.end_date}`
+            : ev.start_date;
+        document.querySelector("#date").textContent = dateRange;
+        document.querySelector("#place").textContent = `${ev.city || ""}${
+          ev.venue ? " · " + ev.venue : ""
+        }`;
+
+        const org = document.querySelector("#org");
+        if (ev.organizer) {
+          org.textContent = ev.organizer.name || "主办方";
+          org.href =
+            ev.organizer.url ||
+            `../organizers/detail.html?id=${encodeURIComponent(
+              ev.organizer.id || ""
+            )}`;
+        } else {
+          org.textContent = "—";
+          org.removeAttribute("href");
+        }
+
+        const price = ev.price_min
+          ? `参考报名费：¥${ev.price_min}${
+              ev.price_note ? "（" + ev.price_note + "）" : ""
+            }`
+          : "";
+        document.querySelector("#price").textContent = price;
+
+        const signup = document.querySelector("#signup");
+        signup.href = ev.signup_url || "#";
+        if (ev.status === "finished") {
+          signup.classList.add("disabled");
+          signup.setAttribute("aria-disabled", "true");
+          signup.textContent = "已完赛";
+        } else {
+          signup.textContent = ev.status === "signup" ? "立即报名" : "查看详情";
+        }
+
+        document.querySelector("#rule-btn").href = ev.rule_url || "#";
+
+        // 收藏/订阅
+        const favBtn = document.querySelector("#fav-btn");
+        favBtn.textContent = isFav(ev.id) ? "已收藏" : "收藏";
+        favBtn.onclick = () => {
+          toggleFav(ev.id);
+          favBtn.textContent = isFav(ev.id) ? "已收藏" : "收藏";
+        };
+        const followBtn = document.querySelector("#follow-btn");
+        followBtn.onclick = () =>
+          alert("订阅示例：后端就绪后接入 /api/follows");
+
+        // 介绍
+        document.querySelector("#intro").innerHTML =
+          ev.intro ||
+          "本赛事为示例数据。实际内容包括竞赛简介、组别设置、路线图、交通与补给信息等。";
+
+        // 资料
+        const docs = ev.docs || [];
+        const docsWrap = document.querySelector("#docs");
+        if (!docs.length) {
+          docsWrap.innerHTML = '<div class="empty">暂无资料</div>';
+        } else {
+          docsWrap.innerHTML = docs
+            .map(
+              (d) => `
+            <div class="doc-item">
+              <div>
+                <div>${d.title}</div>
+                <div class="muted" style="font-size:12px;">${d.note || ""}</div>
+              </div>
+              <a class="btn" href="${
+                d.url
+              }" target="_blank" rel="noopener">下载</a>
+            </div>
+          `
+            )
+            .join("");
+        }
+
+        // 赛程与分组（示例）
+        const schedule = document.querySelector("#schedule");
+        if (!ev.schedule || !ev.schedule.length) {
+          schedule.innerHTML =
+            '<div class="empty">赛程与分组将在发布后展示。</div>';
+        } else {
+          schedule.innerHTML = ev.schedule
+            .map(
+              (sec) => `
+            <div class="card" style="margin-top:8px;">
+              <div style="display:flex;justify-content:space-between;align-items:center;">
+                <strong>${sec.title}</strong>
+                ${
+                  sec.pdf
+                    ? `<a class="btn small" href="${sec.pdf}" target="_blank" rel="noopener">下载PDF</a>`
+                    : ""
+                }
+              </div>
+              <table class="table">
+                <thead><tr><th>组别</th><th>道次/分组</th><th>开赛时间</th></tr></thead>
+                <tbody>
+                  ${sec.items
+                    .map(
+                      (it) =>
+                        `<tr><td>${it.category}</td><td>${
+                          it.heat || "-"
+                        }</td><td>${it.time || "-"}</td></tr>`
+                    )
+                    .join("")}
+                </tbody>
+              </table>
+            </div>
+          `
+            )
+            .join("");
+        }
+
+        // 往届成绩摘要
+        const history = document.querySelector("#history");
+        if (!ev.history || !ev.history.length) {
+          history.innerHTML = '<div class="empty">暂无历史成绩。</div>';
+        } else {
+          history.innerHTML = `
+            <table class="table">
+              <thead><tr><th>年份</th><th>项目</th><th>冠军</th><th>成绩</th></tr></thead>
+              <tbody>
+                ${ev.history
+                  .map(
+                    (h) =>
+                      `<tr><td>${h.year}</td><td>${h.event}</td><td>${h.winner}</td><td>${h.result}</td></tr>`
+                  )
+                  .join("")}
+              </tbody>
+            </table>
+          `;
+        }
+
+        // 相册
+        const album = document.querySelector("#album");
+        if (!ev.album || !ev.album.length) {
+          album.innerHTML = '<div class="empty">暂无相册。</div>';
+        } else {
+          album.innerHTML = `
+            <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px;">
+              ${ev.album
+                .map(
+                  (a) =>
+                    `<a href="${a}" target="_blank" rel="noopener"><img src="${a}" alt="相册" style="width:100%;height:100px;object-fit:cover;border-radius:8px;border:1px solid var(--border);" /></a>`
+                )
+                .join("")}
+            </div>
+          `;
+        }
+      }
+
+      loadDetail();
+    </script>
+  </body>
+</html>

@@ -1,0 +1,138 @@
+<pre>{
+  "events": [
+    {
+      "id": "db-2025-gz-qdhu",
+      "name": "2025 广州千灯湖龙舟邀请赛",
+      "sport": "dragonboat",
+      "city": "广州",
+      "venue": "千灯湖",
+      "start_date": "2025-10-18",
+      "end_date": "2025-10-19",
+      "status": "signup",
+      "price_min": 199,
+      "price_note": "团队报名",
+      "cover": "https://picsum.photos/seed/db1/600/360",
+      "featured": true
+    },
+    {
+      "id": "db-2025-fs-shunde",
+      "name": "顺德龙舟公开赛",
+      "sport": "dragonboat",
+      "city": "佛山",
+      "venue": "德胜河段",
+      "start_date": "2025-11-08",
+      "end_date": "2025-11-08",
+      "status": "soon",
+      "price_min": 99,
+      "cover": "https://picsum.photos/seed/db2/600/360"
+    },
+    {
+      "id": "row-2025-sh-outer",
+      "name": "上海外滩赛艇挑战赛",
+      "sport": "rowing",
+      "city": "上海",
+      "venue": "黄浦江",
+      "start_date": "2025-10-05",
+      "status": "ongoing",
+      "price_min": 299,
+      "cover": "https://picsum.photos/seed/row1/600/360"
+    },
+    {
+      "id": "canoe-2025-hz-xihu",
+      "name": "杭州西湖皮划艇短距离赛",
+      "sport": "canoe",
+      "city": "杭州",
+      "venue": "西湖",
+      "start_date": "2025-09-20",
+      "end_date": "2025-09-20",
+      "status": "finished",
+      "price_min": 59,
+      "cover": "https://picsum.photos/seed/canoe1/600/360"
+    },
+    {
+      "id": "sup-2025-sz-houhai",
+      "name": "深圳后海桨板公开赛",
+      "sport": "sup",
+      "city": "深圳",
+      "venue": "后海",
+      "start_date": "2025-12-06",
+      "status": "soon",
+      "price_min": 129,
+      "cover": "https://picsum.photos/seed/sup1/600/360",
+      "featured": true
+    },
+    {
+      "id": "db-2025-cq-ciqikou",
+      "name": "重庆磁器口龙舟文化节赛",
+      "sport": "dragonboat",
+      "city": "重庆",
+      "venue": "嘉陵江",
+      "start_date": "2025-06-10",
+      "status": "finished",
+      "cover": "https://picsum.photos/seed/db3/600/360"
+    },
+    {
+      "id": "row-2025-gz-baiyun",
+      "name": "白云湖赛艇联赛（第二站）",
+      "sport": "rowing",
+      "city": "广州",
+      "venue": "白云湖",
+      "start_date": "2025-11-22",
+      "status": "signup",
+      "price_min": 199,
+      "cover": "https://picsum.photos/seed/row2/600/360"
+    },
+    {
+      "id": "sup-2025-xm-gulangyu",
+      "name": "厦门鼓浪屿桨板挑战",
+      "sport": "sup",
+      "city": "厦门",
+      "venue": "鼓浪屿",
+      "start_date": "2025-08-18",
+      "status": "finished",
+      "cover": "https://picsum.photos/seed/sup2/600/360"
+    },
+    {
+      "id": "canoe-2025-cc-nanhu",
+      "name": "长春南湖皮划艇赛",
+      "sport": "canoe",
+      "city": "长春",
+      "venue": "南湖",
+      "start_date": "2025-10-26",
+      "status": "signup",
+      "price_min": 69,
+      "cover": "https://picsum.photos/seed/canoe2/600/360"
+    },
+    {
+      "id": "db-2025-nj-qinhuai",
+      "name": "南京秦淮河龙舟赛",
+      "sport": "dragonboat",
+      "city": "南京",
+      "venue": "秦淮河",
+      "start_date": "2025-10-30",
+      "status": "soon",
+      "cover": "https://picsum.photos/seed/db4/600/360"
+    },
+    {
+      "id": "row-2025-bj-yuyuantan",
+      "name": "北京玉渊潭赛艇公开赛",
+      "sport": "rowing",
+      "city": "北京",
+      "venue": "玉渊潭",
+      "start_date": "2025-07-14",
+      "status": "finished",
+      "cover": "https://picsum.photos/seed/row3/600/360"
+    },
+    {
+      "id": "sup-2025-qd-laoshan",
+      "name": "青岛崂山桨板精英赛",
+      "sport": "sup",
+      "city": "青岛",
+      "venue": "崂山",
+      "start_date": "2025-11-15",
+      "status": "signup",
+      "price_min": 159,
+      "cover": "https://picsum.photos/seed/sup3/600/360"
+    }
+  ]
+}</pre>

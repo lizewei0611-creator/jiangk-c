@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html lang="zh-HK">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>我的战绩 · 桨刻 Jiangke</title>
+    <meta
+      name="description"
+      content="查看个人战绩、PB与证书墙，支持认领历史成绩与隐私设置。"
+    />
+    <link rel="stylesheet" href="../styles.css" />
+    <link rel="stylesheet" href="../assets/c-portal.css" />
+    <style>
+      .profile {
+        display: grid;
+        grid-template-columns: 80px 1fr auto;
+        gap: 12px;
+        align-items: center;
+      }
+      .avatar {
+        width: 80px;
+        height: 80px;
+        border-radius: 50%;
+        border: 1px solid var(--border);
+        object-fit: cover;
+      }
+      .profile h1 {
+        margin: 0 0 6px;
+        font-size: 22px;
+      }
+      .profile .meta {
+        color: var(--muted);
+      }
+      .stat {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 12px;
+        margin-top: 10px;
+      }
+      .stat .cell {
+        padding: 10px;
+        border: 1px solid var(--border);
+        border-radius: 10px;
+        background: rgba(255, 255, 255, 0.03);
+      }
+      .timeline {
+        display: grid;
+        gap: 10px;
+      }
+      .tl-item {
+        border-left: 2px solid var(--border);
+        padding-left: 10px;
+      }
+      .tl-item .head {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+      .tl-item .tags {
+        display: flex;
+        gap: 6px;
+      }
+      .cert-wall {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 8px;
+      }
+      .cert-wall img {
+        width: 100%;
+        height: 120px;
+        object-fit: cover;
+        border-radius: 8px;
+        border: 1px solid var(--border);
+      }
+      .toolbar {
+        display: flex;
+        gap: 8px;
+        flex-wrap: wrap;
+      }
+      @media (max-width: 900px) {
+        .profile {
+          grid-template-columns: 60px 1fr;
+        }
+        .stat {
+          grid-template-columns: repeat(2, 1fr);
+        }
+        .cert-wall {
+          grid-template-columns: repeat(2, 1fr);
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <header class="site-header">
+      <div class="container">
+        <a class="brand" href="../index.html">桨刻 Jiangke</a>
+        <nav class="nav">
+          <a href="../events/index.html">赛事</a>
+          <a href="./achievements.html" class="active">战绩</a>
+          <a href="../events/index.html#subscribe">订阅</a>
+          <a href="../create-event.html">主办方入口</a>
+        </nav>
+      </div>
+    </header>
+
+    <main class="container">
+      <section class="card">
+        <div class="profile">
+          <img
+            id="avatar"
+            class="avatar"
+            src="https://picsum.photos/seed/avatar/200"
+            alt="头像"
+          />
+          <div>
+            <h1 id="nickname">运动员昵称</h1>
+            <div class="meta" id="profile-meta">—</div>
+            <div class="toolbar" style="margin-top: 8px">
+              <label class="btn">
+                <input type="checkbox" id="privacy" style="margin-right: 6px" />
+                半公开模式
+              </label>
+              <button class="btn" id="claim">认领历史成绩</button>
+              <button class="btn" id="share">分享我的战绩</button>
+            </div>
+          </div>
+          <div>
+            <div class="badge badge-outline" id="uid">UID</div>
+          </div>
+        </div>
+
+        <div class="stat" style="margin-top: 12px">
+          <div class="cell">
+            <div class="muted">总参赛</div>
+            <div id="stat-total" style="font-size: 18px; font-weight: 600">
+              0
+            </div>
+          </div>
+          <div class="cell">
+            <div class="muted">本赛季</div>
+            <div id="stat-season" style="font-size: 18px; font-weight: 600">
+              0
+            </div>
+          </div>
+          <div class="cell">
+            <div class="muted">PB（最佳）</div>
+            <div id="stat-pb" style="font-size: 18px; font-weight: 600">—</div>
+          </div>
+          <div class="cell">
+            <div class="muted">证书</div>
+            <div id="stat-cert" style="font-size: 18px; font-weight: 600">
+              0
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="card">
+        <h2 style="margin: 0 0 8px">近期参赛</h2>
+        <div id="recent" class="list"></div>
+      </section>
+
+      <section class="card">
+        <h2 style="margin: 0 0 8px">我的时间轴</h2>
+        <div id="timeline" class="timeline"></div>
+      </section>
+
+      <section class="card">
+        <h2 style="margin: 0 0 8px">证书墙</h2>
+        <div id="certs" class="cert-wall"></div>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <div class="container">
+        <div>© 2025 桨刻 · 水上赛事平台</div>
+        <div class="muted">
+          由 ××文化科技有限公司提供服务 · 备案号 粤ICP备XXXX号
+        </div>
+      </div>
+    </footer>
+
+    <script>
+      const fetchBase = "../mock";
+
+      function seasonOf(dateStr) {
+        const d = new Date(dateStr);
+        return d.getFullYear() + " 赛季";
+      }
+
+      async function loadMe() {
+        const res = await fetch(
+          `${fetchBase}/achievements_me.json?_=${Date.now()}`
+        );
+        if (!res.ok) {
+          document.querySelector("main").innerHTML =
+            '<div class="empty container">加载失败</div>';
+          return;
+        }
+        const data = await res.json();
+        render(data);
+      }
+
+      function render(me) {
+        // 头部
+        document.querySelector("#avatar").src =
+          me.profile.avatar || "https://picsum.photos/seed/avatar/200";
+        document.querySelector("#nickname").textContent =
+          me.profile.nickname || "未命名";
+        document.querySelector("#uid").textContent = me.profile.uid
+          ? "UID " + me.profile.uid
+          : "UID 未分配";
+        const metaBits = [];
+        if (me.profile.gender)
+          metaBits.push(me.profile.gender === "M" ? "男" : "女");
+        if (me.profile.birth_year)
+          metaBits.push("出生于 " + me.profile.birth_year);
+        if (me.profile.city) metaBits.push(me.profile.city);
+        document.querySelector("#profile-meta").textContent =
+          metaBits.join(" · ") || "—";
+        document.querySelector("#privacy").checked =
+          me.profile.privacy === "semi";
+
+        // 统计
+        document.querySelector("#stat-total").textContent =
+          me.achievements.length;
+        const yr = new Date().getFullYear();
+        const seasonCount = me.achievements.filter(
+          (a) => new Date(a.date).getFullYear() === yr
+        ).length;
+        document.querySelector("#stat-season").textContent = seasonCount;
+
+        // PB
+        const withTime = me.achievements.filter(
+          (a) => typeof a.time_ms === "number"
+        );
+        let pb = null;
+        if (withTime.length) {
+          pb = withTime.reduce(
+            (min, a) => (a.time_ms < min.time_ms ? a : min),
+            withTime[0]
+          );
+        }
+        document.querySelector("#stat-pb").textContent = pb
+          ? formatMs(pb.time_ms) + " · " + (pb.event_name || "")
+          : "—";
+
+        // 证书
+        const certs = me.achievements.filter((a) => a.certificate_url);
+        document.querySelector("#stat-cert").textContent = certs.length;
+
+        // 近期参赛（按日期倒序最多5条）
+        const recentWrap = document.querySelector("#recent");
+        const recent = [...me.achievements]
+          .sort((a, b) => new Date(b.date) - new Date(a.date))
+          .slice(0, 5);
+        recentWrap.innerHTML =
+          recent.map(renderRecent).join("") ||
+          '<div class="empty">暂无数据</div>';
+
+        // 时间轴
+        const tl = document.querySelector("#timeline");
+        const sorted = [...me.achievements].sort(
+          (a, b) => new Date(b.date) - new Date(a.date)
+        );
+        tl.innerHTML =
+          sorted.map(renderTimelineItem).join("") ||
+          '<div class="empty">暂无数据</div>';
+
+        // 证书墙
+        const wall = document.querySelector("#certs");
+        wall.innerHTML = certs.length
+          ? certs
+              .map(
+                (c) =>
+                  `<a href="${
+                    c.certificate_url
+                  }" target="_blank" rel="noopener"><img src="${
+                    c.certificate_thumb || c.certificate_url
+                  }" alt="证书" /></a>`
+              )
+              .join("")
+          : '<div class="empty">暂无证书。</div>';
+
+        // 交互
+        document.querySelector("#privacy").addEventListener("change", (e) => {
+          const mode = e.target.checked ? "semi" : "public";
+          alert(
+            "示例：已切换隐私为 " +
+              (mode === "semi" ? "半公开" : "公开") +
+              "。后端接入后写入 /api/profile"
+          );
+        });
+        document.querySelector("#claim").addEventListener("click", () => {
+          const phone = prompt("输入手机号（示例）");
+          if (!phone) return;
+          const code = prompt("输入验证码（示例：1234）");
+          if (!code) return;
+          alert("示例：将提交到 /api/claim { phone, code }，成功后刷新列表");
+        });
+        document.querySelector("#share").addEventListener("click", () => {
+          alert("示例：生成海报并分享。上线后可接入 canvas 或后端渲染海报。");
+        });
+      }
+
+      function renderRecent(a) {
+        const status = a.rank ? `第${a.rank}名` : a.status_text || "";
+        return `
+          <div class="event-card">
+            <a class="event-cover" href="../events/detail.html?id=${encodeURIComponent(
+              a.event_id
+            )}">
+              <img src="${
+                a.cover || "https://picsum.photos/seed/ev/600/360"
+              }" alt="封面" />
+            </a>
+            <div class="event-main">
+              <div class="event-head">
+                <h3 class="event-title"><a href="../events/detail.html?id=${encodeURIComponent(
+                  a.event_id
+                )}">${a.event_name}</a></h3>
+                ${
+                  status
+                    ? `<span class="badge badge-outline">${status}</span>`
+                    : ""
+                }
+              </div>
+              <div class="event-meta">
+                <span>${a.date}</span>
+                <span>${a.city || ""}${a.venue ? " · " + a.venue : ""}</span>
+                <span>${a.category || ""}</span>
+              </div>
+              <div class="event-foot">
+                <div class="muted">${
+                  a.time_ms ? "用时 " + formatMs(a.time_ms) : ""
+                }</div>
+                <div class="actions">
+                  ${
+                    a.certificate_url
+                      ? `<a class="btn" href="${a.certificate_url}" target="_blank">下载证书</a>`
+                      : ""
+                  }
+                  <a class="btn primary" href="../events/detail.html?id=${encodeURIComponent(
+                    a.event_id
+                  )}">查看详情</a>
+                </div>
+              </div>
+            </div>
+          </div>
+        `;
+      }
+
+      function renderTimelineItem(a) {
+        const tags = [];
+        if (a.rank)
+          tags.push(`<span class="badge badge-outline">第${a.rank}名</span>`);
+        if (a.pb) tags.push('<span class="badge tag-success">PB</span>');
+        return `
+          <div class="tl-item">
+            <div class="head">
+              <div><strong>${a.date}</strong> · ${a.event_name}</div>
+              <div class="tags">${tags.join("")}</div>
+            </div>
+            <div class="muted" style="margin:6px 0;">${a.category || ""} ${
+          a.distance || ""
+        }</div>
+            <div>${a.time_ms ? "用时 " + formatMs(a.time_ms) : ""}</div>
+            ${
+              a.note
+                ? `<div class="muted" style="font-size:12px;">${a.note}</div>`
+                : ""
+            }
+          </div>
+        `;
+      }
+
+      function formatMs(ms) {
+        const total = Math.floor(ms / 1000);
+        const m = Math.floor(total / 60);
+        const s = total % 60;
+        const cs = Math.floor((ms % 1000) / 10);
+        return `${m}:${String(s).padStart(2, "0")}.${String(cs).padStart(
+          2,
+          "0"
+        )}`;
+      }
+
+      loadMe();
+    </script>
+  </body>
+</html>

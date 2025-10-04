@@ -1,0 +1,47 @@
+<pre>{
+  "id": "db-2025-gz-qdhu",
+  "name": "2025 广州千灯湖龙舟邀请赛",
+  "sport": "dragonboat",
+  "city": "广州",
+  "venue": "千灯湖",
+  "start_date": "2025-10-18",
+  "end_date": "2025-10-19",
+  "status": "signup",
+  "price_min": 199,
+  "price_note": "团队报名",
+  "cover": "https://picsum.photos/seed/db1/1200/600",
+  "featured": true,
+  "signup_url": "https://example.com/signup",
+  "rule_url": "https://example.com/rules.pdf",
+  "organizer": { "id": "org-jk-demo", "name": "桨刻赛事组委会", "url": "../organizers/detail.html?id=org-jk-demo" },
+  "intro": "赛事简介示例：赛事设有200m/500m多个组别，采用电计时，支持线上检录与成绩直播。",
+  "docs": [
+    { "title": "竞赛规程（PDF）", "url": "https://example.com/rules.pdf", "note": "最新版" },
+    { "title": "报名须知（PDF）", "url": "https://example.com/signup.pdf" }
+  ],
+  "schedule": [
+    {
+      "title": "10月18日 预赛",
+      "pdf": "https://example.com/day1.pdf",
+      "items": [
+        { "category": "200m 公开组", "heat": "第1组 第2道", "time": "09:30" },
+        { "category": "200m 混合组", "heat": "第2组 第4道", "time": "10:10" }
+      ]
+    },
+    {
+      "title": "10月19日 决赛",
+      "items": [
+        { "category": "500m 公开组", "heat": "A组 第3道", "time": "14:00" }
+      ]
+    }
+  ],
+  "history": [
+    { "year": 2023, "event": "500m 公开组", "winner": "白云湖俱乐部", "result": "01:42.35" },
+    { "year": 2024, "event": "200m 混合组", "winner": "珠江龙舟队", "result": "00:48.92" }
+  ],
+  "album": [
+    "https://picsum.photos/seed/db1a/600/400",
+    "https://picsum.photos/seed/db1b/600/400",
+    "https://picsum.photos/seed/db1c/600/400"
+  ]
+}</pre>

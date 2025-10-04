@@ -1,0 +1,435 @@
+<!DOCTYPE html>
+<html lang="zh-HK">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>赛事广场 · 桨刻 Jiangke</title>
+    <meta
+      name="description"
+      content="发现龙舟/赛艇/皮划艇/桨板赛事。城市、项目、时间筛选，订阅心仪主办方与赛道。"
+    />
+    <link rel="stylesheet" href="../styles.css" />
+    <link rel="stylesheet" href="../assets/c-portal.css" />
+    <style>
+      /* 页面局部微调（可移到 c-portal.css） */
+      .events-hero {
+        padding: 24px 0 12px;
+      }
+      .events-hero h1 {
+        margin: 0 0 8px;
+        font-size: 26px;
+      }
+      .events-hero p {
+        margin: 0;
+        color: var(--muted);
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Header（复用样式体系） -->
+    <header class="site-header">
+      <div class="container">
+        <a class="brand" href="../index.html" aria-label="返回首页"
+          >桨刻 Jiangke</a
+        >
+        <nav class="nav" aria-label="主导航">
+          <a href="./index.html" class="active">赛事</a>
+          <a href="../me/achievements.html">战绩</a>
+          <a href="../events/index.html#subscribe">订阅</a>
+          <a href="../create-event.html">主办方入口</a>
+        </nav>
+      </div>
+    </header>
+
+    <main class="container">
+      <!-- 标题区 -->
+      <section class="page-header events-hero">
+        <h1>发现水上赛事</h1>
+        <p>按城市、项目与时间筛选，收藏并订阅你感兴趣的赛事。</p>
+      </section>
+
+      <!-- 筛选区 -->
+      <section class="card">
+        <form id="filters" class="filters">
+          <div class="form-row">
+            <label for="city">城市/水域</label>
+            <input id="city" type="search" placeholder="如：广州 / 千灯湖" />
+          </div>
+          <div class="form-row">
+            <label for="sport">项目</label>
+            <select id="sport">
+              <option value="">全部</option>
+              <option value="dragonboat">龙舟</option>
+              <option value="rowing">赛艇</option>
+              <option value="canoe">皮划艇</option>
+              <option value="sup">桨板</option>
+            </select>
+          </div>
+          <div class="form-row">
+            <label for="date">时间</label>
+            <select id="date">
+              <option value="">全部</option>
+              <option value="this_month">本月</option>
+              <option value="next_month">下月</option>
+              <option value="this_season">本赛季</option>
+              <option value="past">往期</option>
+            </select>
+          </div>
+          <div class="form-row">
+            <label for="status">状态</label>
+            <select id="status">
+              <option value="">全部</option>
+              <option value="signup">报名中</option>
+              <option value="soon">即将开赛</option>
+              <option value="ongoing">进行中</option>
+              <option value="finished">已完赛</option>
+            </select>
+          </div>
+          <div class="form-actions">
+            <button type="button" id="reset" class="btn">重置</button>
+            <button type="submit" class="btn primary">应用筛选</button>
+            <div
+              id="filters-status"
+              class="form-status"
+              aria-live="polite"
+            ></div>
+          </div>
+        </form>
+      </section>
+
+      <!-- 列表与订阅 -->
+      <section class="card">
+        <div class="list" id="events-list" aria-live="polite">
+          <!-- 赛事卡片容器 -->
+        </div>
+
+        <div class="pagination" id="pagination">
+          <button class="btn" data-page="prev" aria-label="上一页">
+            上一页
+          </button>
+          <span id="page-info" class="muted"></span>
+          <button class="btn" data-page="next" aria-label="下一页">
+            下一页
+          </button>
+        </div>
+      </section>
+
+      <!-- 订阅锚点 -->
+      <section id="subscribe" class="card">
+        <h2>订阅你关注的城市与项目</h2>
+        <p class="muted">
+          登录后可一键订阅“城市/项目/主办方”，在有新赛或赛程更新时收到提醒。
+        </p>
+        <div class="form-actions">
+          <button class="btn primary" id="subscribe-btn">登录并订阅</button>
+          <span class="muted">未登录时，订阅将以本地提醒存储。</span>
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <div class="container">
+        <div>© 2025 桨刻 · 水上赛事平台</div>
+        <div class="muted">
+          由 ××文化科技有限公司提供服务 · 备案号 粤ICP备XXXX号
+        </div>
+      </div>
+    </footer>
+
+    <script>
+      // 配置：切换为后端接口时，将 fetchBase = '/api'
+      const fetchBase = "../mock";
+
+      // 简单的状态
+      const state = {
+        raw: [],
+        filtered: [],
+        pageSize: 9,
+        page: 1,
+        filters: {
+          city: "",
+          sport: "",
+          date: "",
+          status: "",
+        },
+      };
+
+      const $ = (sel, root = document) => root.querySelector(sel);
+      const $$ = (sel, root = document) =>
+        Array.from(root.querySelectorAll(sel));
+
+      async function loadEvents() {
+        const url = `${fetchBase}/events.json?_=${Date.now()}`;
+        try {
+          const res = await fetch(url);
+          if (!res.ok) throw new Error("加载失败");
+          const data = await res.json();
+          state.raw = data.events || [];
+          applyFilters();
+        } catch (e) {
+          $(
+            "#events-list"
+          ).innerHTML = `<div class="empty">加载失败，请稍后重试。</div>`;
+          console.error(e);
+        }
+      }
+
+      function applyFilters() {
+        const { city, sport, date, status } = state.filters;
+        const now = new Date();
+
+        let list = state.raw.filter((ev) => {
+          // 城市/水域包含
+          const cityOk =
+            !city ||
+            (ev.city && ev.city.toLowerCase().includes(city.toLowerCase())) ||
+            (ev.venue && ev.venue.toLowerCase().includes(city.toLowerCase()));
+          // 项目
+          const sportOk = !sport || ev.sport === sport;
+          // 状态
+          const statusOk = !status || ev.status === status;
+          // 时间段
+          let dateOk = true;
+          const start = new Date(ev.start_date);
+          const end = new Date(ev.end_date || ev.start_date);
+
+          const month = now.getMonth();
+          const year = now.getFullYear();
+          const nextMonth = new Date(year, month + 1, 1);
+          const thisMonthStart = new Date(year, month, 1);
+          const thisMonthEnd = new Date(year, month + 1, 0, 23, 59, 59);
+          const nextMonthStart = new Date(
+            nextMonth.getFullYear(),
+            nextMonth.getMonth(),
+            1
+          );
+          const nextMonthEnd = new Date(
+            nextMonth.getFullYear(),
+            nextMonth.getMonth() + 1,
+            0,
+            23,
+            59,
+            59
+          );
+
+          if (date === "this_month") {
+            dateOk = start <= thisMonthEnd && end >= thisMonthStart;
+          } else if (date === "next_month") {
+            dateOk = start <= nextMonthEnd && end >= nextMonthStart;
+          } else if (date === "this_season") {
+            // 简化为三个月窗口
+            const seasonEnd = new Date(year, month + 3, 0, 23, 59, 59);
+            dateOk = start <= seasonEnd && end >= thisMonthStart;
+          } else if (date === "past") {
+            dateOk = end < now;
+          }
+
+          return cityOk && sportOk && statusOk && dateOk;
+        });
+
+        state.filtered = list;
+        state.page = 1;
+        renderList();
+        updateFiltersStatus();
+      }
+
+      function renderList() {
+        const wrap = $("#events-list");
+        const { pageSize, page, filtered } = state;
+        if (!filtered.length) {
+          wrap.innerHTML = `<div class="empty">暂无符合条件的赛事。</div>`;
+          $("#page-info").textContent = "";
+          return;
+        }
+        const start = (page - 1) * pageSize;
+        const end = start + pageSize;
+        const pageItems = filtered.slice(start, end);
+        wrap.innerHTML = pageItems.map(renderCard).join("");
+        $("#page-info").textContent = `第 ${page} / ${Math.ceil(
+          filtered.length / pageSize
+        )} 页，共 ${filtered.length} 场`;
+      }
+
+      function renderCard(ev) {
+        const dateRange =
+          ev.end_date && ev.end_date !== ev.start_date
+            ? `${ev.start_date} - ${ev.end_date}`
+            : ev.start_date;
+        const statusBadge = badgeByStatus(ev.status);
+        const priceText = ev.price_min
+          ? `¥${ev.price_min}${
+              ev.price_note ? " 起 · " + ev.price_note : " 起"
+            }`
+          : "查看报名";
+        const cover = ev.cover || "../assets/cover-fallback.jpg";
+
+        const href = `./detail.html?id=${encodeURIComponent(ev.id)}`;
+
+        return `
+          <article class="event-card">
+            <a class="event-cover" href="${href}" aria-label="${ev.name}">
+              <img src="${cover}" alt="${ev.name} 封面" loading="lazy" />
+              ${ev.featured ? '<span class="featured">推荐</span>' : ""}
+            </a>
+            <div class="event-main">
+              <div class="event-head">
+                <h3 class="event-title"><a href="${href}">${ev.name}</a></h3>
+                <span class="badge ${statusBadge.className}">${
+          statusBadge.text
+        }</span>
+              </div>
+              <div class="event-meta">
+                <span title="时间">${dateRange}</span>
+                <span title="地点">${ev.city || ""}${
+          ev.venue ? " · " + ev.venue : ""
+        }</span>
+                <span title="项目">${labelOfSport(ev.sport)}</span>
+              </div>
+              <div class="event-foot">
+                <div class="price muted">${priceText}</div>
+                <div class="actions">
+                  <button class="btn small" data-fav="${
+                    ev.id
+                  }" aria-label="收藏赛事">收藏</button>
+                  <a class="btn primary" href="${href}">查看详情</a>
+                </div>
+              </div>
+            </div>
+          </article>
+        `;
+      }
+
+      function badgeByStatus(status) {
+        switch (status) {
+          case "signup":
+            return { text: "报名中", className: "tag-success" };
+          case "soon":
+            return { text: "即将开赛", className: "tag-warn" };
+          case "ongoing":
+            return { text: "进行中", className: "tag-warn" };
+          case "finished":
+            return { text: "已完赛", className: "tag-danger" };
+          default:
+            return { text: "未知", className: "" };
+        }
+      }
+
+      function labelOfSport(s) {
+        return (
+          {
+            dragonboat: "龙舟",
+            rowing: "赛艇",
+            canoe: "皮划艇",
+            sup: "桨板",
+          }[s] || "综合"
+        );
+      }
+
+      function updateFiltersStatus() {
+        const fs = $("#filters-status");
+        const f = state.filters;
+        const parts = [];
+        if (f.city) parts.push(`城市：${f.city}`);
+        if (f.sport) parts.push(`项目：${labelOfSport(f.sport)}`);
+        if (f.date)
+          parts.push(`时间：${$("#date").selectedOptions[0]?.textContent}`);
+        if (f.status)
+          parts.push(`状态：${$("#status").selectedOptions[0]?.textContent}`);
+        fs.textContent = parts.length ? `已应用：${parts.join(" · ")}` : "";
+      }
+
+      // 事件绑定
+      function bindEvents() {
+        $("#filters").addEventListener("submit", (e) => {
+          e.preventDefault();
+          state.filters.city = $("#city").value.trim();
+          state.filters.sport = $("#sport").value;
+          state.filters.date = $("#date").value;
+          state.filters.status = $("#status").value;
+          // 保存本地
+          localStorage.setItem("jk_filters", JSON.stringify(state.filters));
+          applyFilters();
+        });
+
+        $("#reset").addEventListener("click", () => {
+          $("#city").value = "";
+          $("#sport").value = "";
+          $("#date").value = "";
+          $("#status").value = "";
+          state.filters = { city: "", sport: "", date: "", status: "" };
+          localStorage.removeItem("jk_filters");
+          applyFilters();
+        });
+
+        $("#pagination").addEventListener("click", (e) => {
+          const btn = e.target.closest("button[data-page]");
+          if (!btn) return;
+          const total = Math.ceil(state.filtered.length / state.pageSize);
+          if (btn.dataset.page === "prev" && state.page > 1) {
+            state.page--;
+          } else if (btn.dataset.page === "next" && state.page < total) {
+            state.page++;
+          }
+          renderList();
+        });
+
+        // 收藏按钮（本地收藏）
+        $("#events-list").addEventListener("click", (e) => {
+          const btn = e.target.closest("button[data-fav]");
+          if (!btn) return;
+          const id = btn.getAttribute("data-fav");
+          toggleFav(id);
+          btn.textContent = isFav(id) ? "已收藏" : "收藏";
+        });
+
+        // 订阅按钮
+        $("#subscribe-btn").addEventListener("click", () => {
+          alert("示例：未接后端时，仅做UI演示。登录与订阅将在后端就绪后打通。");
+        });
+      }
+
+      function loadSavedFilters() {
+        try {
+          const s = JSON.parse(localStorage.getItem("jk_filters") || "{}");
+          if (s) {
+            state.filters = { ...state.filters, ...s };
+            $("#city").value = s.city || "";
+            $("#sport").value = s.sport || "";
+            $("#date").value = s.date || "";
+            $("#status").value = s.status || "";
+          }
+        } catch {}
+      }
+
+      // 本地收藏
+      function favKey() {
+        return "jk_favs";
+      }
+      function getFavs() {
+        try {
+          return JSON.parse(localStorage.getItem(favKey()) || "[]");
+        } catch {
+          return [];
+        }
+      }
+      function isFav(id) {
+        return getFavs().includes(id);
+      }
+      function toggleFav(id) {
+        const favs = getFavs();
+        const i = favs.indexOf(id);
+        if (i >= 0) {
+          favs.splice(i, 1);
+        } else {
+          favs.push(id);
+        }
+        localStorage.setItem(favKey(), JSON.stringify(favs));
+      }
+
+      // 启动
+      loadSavedFilters();
+      bindEvents();
+      loadEvents();
+    </script>
+  </body>
+</html>

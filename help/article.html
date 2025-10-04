@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="zh-HK">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>帮助 · 文章 · 桨刻 Jiangke</title>
+    <meta name="description" content="桨刻帮助中心文章" />
+    <link rel="stylesheet" href="../styles.css" />
+    <link rel="stylesheet" href="../assets/c-portal.css" />
+    <style>
+      .doc {
+        display: grid;
+        grid-template-columns: 220px 1fr;
+        gap: 12px;
+      }
+      .toc {
+        position: sticky;
+        top: 12px;
+        border: 1px solid var(--border);
+        border-radius: 12px;
+        padding: 10px;
+        background: rgba(255, 255, 255, 0.03);
+      }
+      .toc a {
+        display: block;
+        padding: 6px 4px;
+        color: var(--muted);
+      }
+      .article h2 {
+        margin-top: 14px;
+      }
+      @media (max-width: 900px) {
+        .doc {
+          grid-template-columns: 1fr;
+        }
+        .toc {
+          position: static;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <header class="site-header">
+      <div class="container">
+        <a class="brand" href="../index.html">桨刻 Jiangke</a>
+        <nav class="nav">
+          <a href="../events/index.html">赛事</a>
+          <a href="../me/achievements.html">战绩</a>
+          <a href="../organizer.html">主办方</a>
+          <a href="./index.html" class="active">帮助</a>
+        </nav>
+      </div>
+    </header>
+
+    <main class="container">
+      <div class="doc">
+        <aside class="toc" id="toc">
+          <strong style="display: block; margin-bottom: 6px">目录</strong>
+          <!-- JS 生成目录 -->
+        </aside>
+        <article class="card article" id="article">
+          <!-- JS 注入文章 -->
+        </article>
+      </div>
+    </main>
+
+    <footer class="site-footer">
+      <div class="container">
+        <div>© 2025 桨刻 · 水上赛事平台</div>
+        <div class="muted">
+          由 ××文化科技有限公司提供服务 · 备案号 粤ICP备XXXX号
+        </div>
+      </div>
+    </footer>
+
+    <script>
+      const map = {
+        a1: {
+          title: "如何设置报名问卷",
+          content: `
+            <h1>如何设置报名问卷</h1>
+            <p class="muted">适用：主办方管理后台 · 报名设置</p>
+            <h2 id="s1">进入报名设置</h2>
+            <p>在赛事工作台中，进入“报名设置”，点击“问卷字段”。</p>
+            <h2 id="s2">添加字段</h2>
+            <p>支持单选、多选、文本、日期、上传等字段，可设置是否必填。</p>
+            <h2 id="s3">高级选项</h2>
+            <p>可按组别显示字段、设置校验规则、导出映射等。</p>
+          `,
+        },
+        a2: {
+          title: "退款与改签说明",
+          content: `
+            <h1>退款与改签说明</h1>
+            <p class="muted">适用：报名端与主办方</p>
+            <h2 id="s1">退款政策</h2>
+            <p>支持开赛前7日内按比例退款，具体以赛事规程为准。</p>
+            <h2 id="s2">改签流程</h2>
+            <p>在“我的报名”中发起改签申请，主办方审核后生效。</p>
+          `,
+        },
+        a3: {
+          title: "如何分组与分道",
+          content: `
+            <h1>如何分组与分道</h1>
+            <p class="muted">适用：裁判台</p>
+            <h2 id="s1">分组</h2>
+            <p>按报名成绩或抽签分组，支持自动与手动混合。</p>
+            <h2 id="s2">分道</h2>
+            <p>支持按蛇形法或公平分配策略自动分道，亦可手动调整。</p>
+          `,
+        },
+        a4: {
+          title: "晋级规则模板",
+          content: `
+            <h1>晋级规则模板</h1>
+            <h2 id="s1">常用模板</h2>
+            <p>预赛前两名直接进决赛，3-4名进复活赛等。</p>
+          `,
+        },
+        a5: {
+          title: "连接计时设备",
+          content: `
+            <h1>连接计时设备</h1>
+            <h2 id="s1">设备支持</h2>
+            <p>支持常见 RFID 与光电门设备，具体清单请联系技术支持。</p>
+          `,
+        },
+        a6: {
+          title: "发布电子证书",
+          content: `
+            <h1>发布电子证书</h1>
+            <h2 id="s1">模板与变量</h2>
+            <p>支持自定义证书模板与变量占位，如姓名/组别/成绩/名次。</p>
+          `,
+        },
+      };
+
+      const id = new URLSearchParams(location.search).get("id") || "a1";
+      const art = map[id];
+      if (!art) {
+        document.getElementById("article").innerHTML =
+          '<div class="empty">文章不存在</div>';
+      } else {
+        document.title = art.title + " · 帮助 · 桨刻";
+        const el = document.getElementById("article");
+        el.innerHTML = art.content;
+
+        // 生成目录
+        const toc = document.getElementById("toc");
+        const hs = el.querySelectorAll("h2[id]");
+        toc.innerHTML += Array.from(hs)
+          .map((h) => `<a href="#${h.id}">${h.textContent}</a>`)
+          .join("");
+      }
+    </script>
+  </body>
+</html>

@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="zh-HK">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>主办方 · 桨刻 Jiangke</title>
+    <meta
+      name="description"
+      content="查看主办方信息、过往赛事、新闻与联系方式。"
+    />
+    <link rel="stylesheet" href="../styles.css" />
+    <link rel="stylesheet" href="../assets/c-portal.css" />
+    <style>
+      .org-header {
+        display: grid;
+        grid-template-columns: 72px 1fr auto;
+        gap: 12px;
+        align-items: center;
+      }
+      .org-logo {
+        width: 72px;
+        height: 72px;
+        border-radius: 12px;
+        border: 1px solid var(--border);
+        object-fit: cover;
+      }
+      .org-header h1 {
+        margin: 0 0 6px;
+        font-size: 22px;
+      }
+      .org-meta {
+        color: var(--muted);
+      }
+      .org-actions {
+        display: flex;
+        gap: 8px;
+      }
+      .grid-2 {
+        display: grid;
+        grid-template-columns: 2fr 1fr;
+        gap: 12px;
+      }
+      .info-list {
+        display: grid;
+        gap: 8px;
+      }
+      .info-item {
+        display: flex;
+        justify-content: space-between;
+        gap: 10px;
+        border: 1px solid var(--border);
+        border-radius: 10px;
+        padding: 10px;
+      }
+      .event-mini + .event-mini {
+        margin-top: 10px;
+      }
+      .event-mini {
+        display: grid;
+        grid-template-columns: 100px 1fr auto;
+        gap: 10px;
+        align-items: center;
+        border: 1px solid var(--border);
+        border-radius: 10px;
+        padding: 8px;
+      }
+      .event-mini img {
+        width: 100px;
+        height: 72px;
+        object-fit: cover;
+        border-radius: 8px;
+        border: 1px solid var(--border);
+      }
+      @media (max-width: 900px) {
+        .org-header {
+          grid-template-columns: 56px 1fr;
+        }
+        .grid-2 {
+          grid-template-columns: 1fr;
+        }
+        .event-mini {
+          grid-template-columns: 80px 1fr;
+        }
+        .event-mini img {
+          width: 80px;
+          height: 60px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <header class="site-header">
+      <div class="container">
+        <a class="brand" href="../index.html">桨刻 Jiangke</a>
+        <nav class="nav">
+          <a href="../events/index.html">赛事</a>
+          <a href="../me/achievements.html">战绩</a>
+          <a href="../events/index.html#subscribe">订阅</a>
+          <a href="../create-event.html">主办方入口</a>
+        </nav>
+      </div>
+    </header>
+
+    <main class="container">
+      <section class="card">
+        <div class="org-header">
+          <img
+            id="logo"
+            class="org-logo"
+            src="https://picsum.photos/seed/org/200"
+            alt="主办方Logo"
+          />
+          <div>
+            <h1 id="name">主办方名称</h1>
+            <div class="org-meta" id="meta">—</div>
+            <div id="badges" style="margin-top: 6px"></div>
+          </div>
+          <div class="org-actions">
+            <button class="btn" id="follow">关注</button>
+            <a class="btn" id="contact" href="#" target="_blank" rel="noopener"
+              >联系主办方</a
+            >
+            <a class="btn primary" id="apply" href="../create-event.html"
+              >发布赛事</a
+            >
+          </div>
+        </div>
+      </section>
+
+      <section class="grid-2">
+        <div class="card">
+          <h2 style="margin: 0 0 8px">介绍</h2>
+          <div id="intro" class="muted"></div>
+
+          <h2 style="margin: 16px 0 8px">进行中/即将开始</h2>
+          <div id="current"></div>
+
+          <h2 style="margin: 16px 0 8px">历史赛事</h2>
+          <div id="history"></div>
+        </div>
+
+        <aside class="card">
+          <h2 style="margin: 0 0 8px">联系方式</h2>
+          <div class="info-list" id="contact-list"></div>
+
+          <h2 style="margin: 16px 0 8px">认证信息</h2>
+          <div class="info-list" id="certs"></div>
+        </aside>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <div class="container">
+        <div>© 2025 桨刻 · 水上赛事平台</div>
+        <div class="muted">
+          由 ××文化科技有限公司提供服务 · 备案号 粤ICP备XXXX号
+        </div>
+      </div>
+    </footer>
+
+    <script>
+      const fetchBase = "../mock";
+      const params = new URLSearchParams(location.search);
+      const id = params.get("id") || "org-jk-demo";
+
+      function favKey() {
+        return "jk_follow_orgs";
+      }
+      function getFollows() {
+        try {
+          return JSON.parse(localStorage.getItem(favKey()) || "[]");
+        } catch {
+          return [];
+        }
+      }
+      function isFollow(x) {
+        return getFollows().includes(x);
+      }
+      function toggleFollow(x) {
+        const fs = getFollows();
+        const i = fs.indexOf(x);
+        i >= 0 ? fs.splice(i, 1) : fs.push(x);
+        localStorage.setItem(favKey(), JSON.stringify(fs));
+      }
+
+      async function loadOrg() {
+        try {
+          const res = await fetch(
+            `${fetchBase}/organizer_${encodeURIComponent(
+              id
+            )}.json?_=${Date.now()}`
+          );
+          const org = await res.json();
+          render(org);
+        } catch (e) {
+          console.error(e);
+          document.querySelector("main").innerHTML =
+            '<div class="container empty">主办方信息加载失败</div>';
+        }
+      }
+
+      function render(org) {
+        document.title = `${org.name} · 主办方 · 桨刻`;
+        document.querySelector("#logo").src =
+          org.logo || "https://picsum.photos/seed/org/200";
+        document.querySelector("#name").textContent = org.name;
+        document.querySelector("#meta").textContent = [
+          org.city,
+          org.type,
+          org.founded ? "成立于 " + org.founded : "",
+        ]
+          .filter(Boolean)
+          .join(" · ");
+        const badges = (org.badges || [])
+          .map((b) => `<span class="badge badge-outline">${b}</span>`)
+          .join(" ");
+        document.querySelector("#badges").innerHTML = badges || "";
+
+        const followBtn = document.querySelector("#follow");
+        followBtn.textContent = isFollow(org.id) ? "已关注" : "关注";
+        followBtn.onclick = () => {
+          toggleFollow(org.id);
+          followBtn.textContent = isFollow(org.id) ? "已关注" : "关注";
+        };
+
+        const contactBtn = document.querySelector("#contact");
+        contactBtn.href = org.contact?.site || org.contact?.wechat_qr || "#";
+
+        document.querySelector("#intro").textContent =
+          org.intro || "该主办方暂未填写介绍。";
+
+        // 联系方式
+        const cl = document.querySelector("#contact-list");
+        const c = org.contact || {};
+        const rows = [];
+        if (c.site)
+          rows.push(
+            row(
+              "官网",
+              `<a href="${c.site}" target="_blank" rel="noopener">${c.site}</a>`
+            )
+          );
+        if (c.email)
+          rows.push(row("邮箱", `<a href="mailto:${c.email}">${c.email}</a>`));
+        if (c.phone)
+          rows.push(row("电话", `<a href="tel:${c.phone}">${c.phone}</a>`));
+        if (c.wechat) rows.push(row("微信", c.wechat));
+        if (c.wechat_qr)
+          rows.push(
+            row(
+              "微信二维码",
+              `<img src="${c.wechat_qr}" alt="微信二维码" style="width:100px;height:100px;border:1px solid var(--border);border-radius:8px;" />`
+            )
+          );
+        cl.innerHTML = rows.join("") || '<div class="empty">暂无联系方式</div>';
+
+        // 认证信息
+        const certs = document.querySelector("#certs");
+        const certRows = (org.certs || []).map((ci) =>
+          row(ci.name, ci.no || "—")
+        );
+        certs.innerHTML =
+          certRows.join("") || '<div class="empty">暂无认证信息</div>';
+
+        // 赛事
+        const cur = document.querySelector("#current");
+        const his = document.querySelector("#history");
+        const curItems = (org.events || []).filter(
+          (e) => e.status !== "finished"
+        );
+        const hisItems = (org.events || []).filter(
+          (e) => e.status === "finished"
+        );
+
+        cur.innerHTML = curItems.length
+          ? curItems.map(renderEventMini).join("")
+          : '<div class="empty">暂无进行中的赛事</div>';
+        his.innerHTML = hisItems.length
+          ? hisItems.map(renderEventMini).join("")
+          : '<div class="empty">暂无历史赛事</div>';
+      }
+
+      function row(k, v) {
+        return `<div class="info-item"><div class="muted">${k}</div><div>${v}</div></div>`;
+      }
+
+      function renderEventMini(e) {
+        const href = `../events/detail.html?id=${encodeURIComponent(e.id)}`;
+        const dateRange =
+          e.end_date && e.end_date !== e.start_date
+            ? `${e.start_date} - ${e.end_date}`
+            : e.start_date;
+        const statusText =
+          {
+            signup: "报名中",
+            soon: "即将开赛",
+            ongoing: "进行中",
+            finished: "已完赛",
+          }[e.status] || "—";
+        return `
+          <div class="event-mini">
+            <a href="${href}"><img src="${
+          e.cover || "https://picsum.photos/seed/ev/200/120"
+        }" alt="封面" /></a>
+            <div>
+              <div style="display:flex;justify-content:space-between;align-items:center;gap:8px;">
+                <a href="${href}"><strong>${e.name}</strong></a>
+                <span class="badge badge-outline">${statusText}</span>
+              </div>
+              <div class="muted" style="margin-top:4px;">${dateRange} · ${
+          e.city || ""
+        }${e.venue ? " · " + e.venue : ""}</div>
+            </div>
+            <div>
+              <a class="btn" href="${href}">查看</a>
+            </div>
+          </div>
+        `;
+      }
+
+      loadOrg();
+    </script>
+  </body>
+</html>
