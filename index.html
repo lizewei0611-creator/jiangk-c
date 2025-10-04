@@ -3,333 +3,358 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>赛事门户 | 首页</title>
-    <meta name="description" content="查看赛事、个人成绩与账户信息的门户首页" />
-    <!-- 如有全局样式，可保留；没有就删掉这一行 -->
-    <!-- <link rel="stylesheet" href="/assets/styles.css" /> -->
-    <link rel="stylesheet" href="/assets/c-portal.css" />
+    <title>桨刻赛事 · 发现与报名</title>
+    <link rel="stylesheet" href="./assets/styles.css" />
+    <style>
+      /* 补充轻样式 */
+      .hero {
+        padding: 40px 0 20px;
+      }
+      .hero h1 {
+        margin: 0 0 8px;
+        font-size: 32px;
+      }
+      .hero .lead {
+        color: var(--muted);
+        margin: 0;
+      }
+      .actions {
+        display: flex;
+        gap: 12px;
+        margin-top: 14px;
+      }
+
+      .cards.grid {
+        grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+      }
+      .event-card {
+        border: 1px solid var(--border);
+        border-radius: var(--radius);
+        padding: 12px;
+        background: rgba(255, 255, 255, 0.03);
+        display: grid;
+        gap: 8px;
+        transition: 0.15s ease;
+      }
+      .event-card:hover {
+        transform: translateY(-2px);
+        background: rgba(255, 255, 255, 0.06);
+      }
+      .event-cover {
+        border-radius: 10px;
+        overflow: hidden;
+        border: 1px solid var(--border);
+      }
+      .event-title {
+        font-weight: 800;
+      }
+      .event-meta {
+        color: var(--muted);
+        font-size: 14px;
+      }
+      .event-actions {
+        display: flex;
+        gap: 8px;
+      }
+
+      .timeline {
+        display: grid;
+        gap: 12px;
+      }
+      .time-item {
+        display: flex;
+        gap: 12px;
+        align-items: center;
+        padding: 10px;
+        border: 1px solid var(--border);
+        border-radius: 10px;
+        background: rgba(255, 255, 255, 0.03);
+      }
+      .time-badge {
+        width: 64px;
+        text-align: center;
+        font-weight: 700;
+        background: rgba(255, 255, 255, 0.05);
+        border: 1px solid var(--border);
+        border-radius: 8px;
+        padding: 6px 8px;
+      }
+      .gallery {
+        display: grid;
+        gap: 10px;
+        grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+      }
+      .gallery img {
+        border-radius: 10px;
+        border: 1px solid var(--border);
+      }
+
+      /* FAQ 列表 */
+      .faq .q {
+        font-weight: 700;
+      }
+      .faq .a {
+        color: var(--muted);
+      }
+
+      /* 顶部导航更像门户而不是后台 */
+      .brand img {
+        border-radius: 8px;
+        border: 1px solid var(--border);
+      }
+    </style>
   </head>
   <body>
-    <header class="container header">
-      <div class="brand">
-        <img
-          src="https://picsum.photos/seed/brand/36/36"
-          alt="logo"
-          style="border-radius: 8px; border: 1px solid #e6e8eb"
-        />
-        <span>赛事门户</span>
+    <!-- 顶部导航（C 端） -->
+    <header class="site-header">
+      <div class="container">
+        <a class="brand" href="./">
+          <img src="https://picsum.photos/seed/brand/36/36" alt="logo" />
+          <span>桨刻赛事</span>
+        </a>
+        <nav class="nav">
+          <a href="./index.html" class="active">发现</a>
+          <a href="#schedule">赛程</a>
+          <a href="#rank">榜单</a>
+          <a href="#media">精彩瞬间</a>
+          <!-- B 端入口弱化放到右侧或页脚 -->
+          <a
+            href="http://localhost:5174/"
+            class="badge"
+            target="_blank"
+            rel="noopener"
+            >赛事方入口</a
+        </nav>
       </div>
-      <nav class="nav" id="main-nav">
-        <a href="/" data-path="/" aria-label="首页">首页</a>
-        <a href="/events/" data-path="/events/" aria-label="赛事">赛事</a>
-        <a
-          href="/me/achievements.html"
-          data-path="/me/achievements.html"
-          aria-label="我的成绩"
-          >我的成绩</a
-        >
-        <a href="/organizer/" data-path="/organizer/" aria-label="主办方"
-          >主办方</a
-        >
-        <a href="/help/" data-path="/help/" aria-label="帮助中心">帮助中心</a>
-      </nav>
     </header>
 
     <main class="container">
-      <div class="notice">
-        <span>公告</span>
-        <span class="muted"
-          >报名高峰期，建议提前完成实名认证与体检证明上传。</span
-        >
-        <button
-          class="btn link"
-          onclick="location.href='/help/article.html?id=notice_signup'"
-        >
-          查看详情
-        </button>
-      </div>
-
+      <!-- 首屏主视觉：C 端语气 -->
       <section class="hero">
-        <div class="split">
-          <div class="grow">
-            <h1>欢迎来到赛事门户</h1>
-            <p class="muted">
-              查看近期赛事、个人成绩与账户信息。支持龙舟、赛艇等项目。
-            </p>
-            <div class="pill-links" style="margin-top: 10px">
-              <a href="/events/">查看全部赛事</a>
-              <a href="/me/achievements.html">查看我的成绩</a>
-              <a href="/organizer/create-event.html">发布赛事</a>
-            </div>
-          </div>
-          <div>
-            <button class="btn primary" onclick="location.href='/events/'">
-              立即报名
-            </button>
-          </div>
+        <h1>发现附近的龙舟赛事，立即报名参赛</h1>
+        <p class="lead">官方赛历 · 实时成绩 · 电子证书 · 精彩集锦</p>
+        <div class="actions">
+          <a class="btn primary" href="#hot">立即报名</a>
+          <a class="btn" href="#schedule">查看赛程</a>
         </div>
       </section>
 
-      <section class="grid">
-        <div class="col-8">
-          <div class="card">
-            <div class="split" style="margin-bottom: 8px">
-              <h2 class="grow">近期赛事</h2>
-              <div class="section-actions">
-                <button class="btn" onclick="location.href='/events/'">
-                  全部赛事
-                </button>
-              </div>
-            </div>
-            <div id="events-list" class="list">
-              <div class="empty">正在加载赛事数据...</div>
+      <!-- 精选赛事 -->
+      <section id="hot" class="card">
+        <h2>精选赛事</h2>
+        <div id="events" class="cards grid"></div>
+        <small class="muted">更多赛事正在更新中</small>
+      </section>
+
+      <!-- 即将开赛（时间轴） -->
+      <section id="schedule" class="card">
+        <h2>即将开赛</h2>
+        <div id="upcoming" class="timeline">
+          <!-- JS 动态填充 -->
+        </div>
+      </section>
+
+      <!-- 冠军榜单 -->
+      <section id="rank" class="card">
+        <h2>最新榜单</h2>
+        <div class="table-wrap">
+          <table class="table">
+            <thead>
+              <tr>
+                <th>排名</th>
+                <th>队伍</th>
+                <th>项目</th>
+                <th>成绩</th>
+                <th>赛事</th>
+              </tr>
+            </thead>
+            <tbody id="rank-body"></tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- 媒体画廊 -->
+      <section id="media" class="card">
+        <h2>精彩瞬间</h2>
+        <div class="gallery" id="gallery">
+          <img src="https://picsum.photos/seed/d1/640/400" alt="gallery" />
+          <img src="https://picsum.photos/seed/d2/640/400" alt="gallery" />
+          <img src="https://picsum.photos/seed/d3/640/400" alt="gallery" />
+          <img src="https://picsum.photos/seed/d4/640/400" alt="gallery" />
+        </div>
+      </section>
+
+      <!-- FAQ（用户侧） -->
+      <section class="card faq">
+        <h2>常见问题</h2>
+        <div class="list">
+          <div class="item">
+            <div class="q">如何报名参赛？</div>
+            <div class="a">
+              在精选赛事中选择赛事，点击“报名”，按指引填写信息并完成缴费即可。
             </div>
           </div>
-
-          <div class="card" style="margin-top: 16px">
-            <div class="split" style="margin-bottom: 8px">
-              <h2 class="grow">我的近期成绩</h2>
-              <div class="section-actions">
-                <button
-                  class="btn"
-                  onclick="location.href='/me/achievements.html'"
-                >
-                  查看全部
-                </button>
-              </div>
+          <div class="item">
+            <div class="q">成绩如何查询？</div>
+            <div class="a">
+              赛后可在赛事详情页查看实时成绩与电子证书，也可以在“榜单”模块查看。
             </div>
-            <div id="achievements-list" class="list">
-              <div class="empty">正在加载我的成绩...</div>
+          </div>
+          <div class="item">
+            <div class="q">退款与改签规则？</div>
+            <div class="a">
+              以各赛事公告为准，报名页将清晰展示退款与改签规则。
             </div>
           </div>
         </div>
-
-        <aside class="col-4">
-          <div class="card">
-            <h2>我的信息</h2>
-            <div class="split" style="margin-top: 8px">
-              <div class="item-meta">
-                <img
-                  id="profile-avatar"
-                  class="avatar"
-                  src="https://picsum.photos/seed/user/80/80"
-                  alt="头像"
-                />
-                <div>
-                  <div id="profile-nickname"><strong>未登录</strong></div>
-                  <div class="muted" id="profile-uid">—</div>
-                </div>
-              </div>
-              <button class="btn" id="login-btn">登录</button>
-            </div>
-            <div class="stat" style="margin-top: 12px">
-              <div>完赛数 <strong id="stat-finished">—</strong></div>
-              <div>PB 次数 <strong id="stat-pb">—</strong></div>
-            </div>
-          </div>
-
-          <div class="card" style="margin-top: 16px">
-            <h2>常用入口</h2>
-            <div class="pill-links" style="margin-top: 6px">
-              <a href="/events/">赛事列表</a>
-              <a href="/organizer/">主办方</a>
-              <a href="/organizer/create-event.html">发布赛事</a>
-              <a href="/help/">帮助中心</a>
-              <a href="/me/achievements.html">我的成绩</a>
-            </div>
-          </div>
-        </aside>
       </section>
     </main>
 
-    <footer class="container footer">
-      <div>© 2025 赛事门户 · 联系方式 · 备案信息</div>
+    <footer class="site-footer">
+      <div class="container">
+        <span class="muted">© 2025 桨刻 · 由赛事与龙舟社区共同维护</span>
+      </div>
     </footer>
 
     <script>
-      // 导航高亮（需通过 http(s) 访问页面，而不是 file://）
-      (function highlightNav() {
-        var path = location.pathname || "/";
-        var nav = document.getElementById("main-nav");
-        if (!nav) return;
-        var links = nav.querySelectorAll("a[data-path]");
-        links.forEach(function (a) {
-          var p = a.getAttribute("data-path");
-          if (p === "/" && (path === "/" || path.endsWith("/index.html")))
-            a.classList.add("active");
-          else if (p !== "/" && path.indexOf(p) === 0)
-            a.classList.add("active");
-        });
-      })();
+      // 轻 JS：把原有数据渲染成更“C 端”的卡片与时间轴
+      async function j(url) {
+        const r = await fetch(url, { cache: "no-store" });
+        if (!r.ok) throw new Error(r.status + " " + url);
+        return r.json();
+      }
+      function E(t, c, txt) {
+        const n = document.createElement(t);
+        if (c) n.className = c;
+        if (txt != null) n.textContent = txt;
+        return n;
+      }
 
-      document
-        .getElementById("login-btn")
-        .addEventListener("click", function () {
-          alert("这里对接登录：可跳 /me/login.html 或打开登录弹窗");
-        });
-
-      async function safeFetch(url) {
-        const controller = new AbortController();
-        const timeout = setTimeout(() => controller.abort(), 4000); // 4秒超时
+      // 精选赛事 -> 卡片
+      async function loadEvents() {
+        const root = document.getElementById("events");
+        root.innerHTML = "";
         try {
-          const res = await fetch(url, {
-            credentials: "same-origin",
-            signal: controller.signal,
+          const list = await j("./data/events.json");
+          if (!Array.isArray(list) || !list.length) {
+            root.appendChild(E("div", "empty", "近期暂无赛事，敬请期待"));
+            return;
+          }
+          list.slice(0, 6).forEach((e, idx) => {
+            const card = E("div", "event-card");
+            const cover = E("div", "event-cover");
+            const img = new Image();
+            img.src = e.cover || `https://picsum.photos/seed/ev${idx}/640/360`;
+            img.alt = e.title || "赛事封面";
+            cover.appendChild(img);
+            card.appendChild(cover);
+
+            card.appendChild(E("div", "event-title", e.title || "未命名赛事"));
+            card.appendChild(
+              E(
+                "div",
+                "event-meta",
+                [e.date, e.location].filter(Boolean).join(" · ") ||
+                  "时间待定 · 地点待定"
+              )
+            );
+
+            const actions = E("div", "event-actions");
+            const btnPrimary = E("a", "btn primary", e.signupText || "报名");
+            btnPrimary.href = e.link || "#";
+            const btnGhost = E("a", "btn", "详情");
+            btnGhost.href = e.link || "#";
+            actions.append(btnPrimary, btnGhost);
+
+            card.appendChild(actions);
+            root.appendChild(card);
           });
-          if (!res.ok) throw new Error("HTTP " + res.status);
-          return await res.json();
-        } catch (e) {
-          console.warn("加载失败", url, e);
-          return null;
-        } finally {
-          clearTimeout(timeout);
+        } catch (err) {
+          root.appendChild(E("div", "error", "加载失败：" + err.message));
         }
       }
 
-      function formatDateRange(start, end) {
-        if (!start && !end) return "";
-        if (start && end && start !== end) return start + " ~ " + end;
-        return start || end || "";
-      }
-      function msToTime(ms) {
-        if (typeof ms !== "number") return "—";
-        const m = Math.floor(ms / 60000);
-        const s = Math.floor((ms % 60000) / 1000);
-        const cs = Math.floor((ms % 1000) / 10);
-        return (
-          m +
-          ":" +
-          String(s).padStart(2, "0") +
-          "." +
-          String(cs).padStart(2, "0")
-        );
-      }
+      // 即将开赛 -> 时间轴（从 events.json 推断）
+      async function loadUpcoming() {
+        const root = document.getElementById("upcoming");
+        root.innerHTML = "";
+        try {
+          const list = await j("./data/events.json");
+          const upcoming = (Array.isArray(list) ? list : [])
+            .filter((e) => e.date)
+            .slice(0, 5);
 
-      // 兼容你上传的 events.json 与 achievements_me.json 字段
-      async function renderEvents() {
-        const box = document.getElementById("events-list");
-        // 与本文件同目录：index.html、events.json、achievements_me.json 放一起
-        const data = await safeFetch("./events.json");
-        if (!data || !Array.isArray(data.events) || data.events.length === 0) {
-          box.innerHTML = '<div class="empty">暂无可展示的赛事</div>';
-          return;
-        }
-        const list = data.events
-          .slice(0, 5)
-          .map(function (ev) {
-            const statusMap = {
-              signup: "报名中",
-              soon: "即将开始",
-              ongoing: "进行中",
-              finished: "已结束",
-            };
-            const status = statusMap[ev.status] || ev.status || "进行中";
-            const date =
-              formatDateRange(ev.start_date, ev.end_date) || ev.date || "";
-            const city = ev.city || "";
-            const name = ev.name || ev.event_name || "未命名赛事";
-            const id = ev.id || ev.event_id || "";
-            const href = id
-              ? "/events/detail.html?id=" + encodeURIComponent(id)
-              : "/events/";
-            return (
-              '<div class="list-item clickable" onclick="location.href=\'' +
-              href +
-              "'\">" +
-              '<div class="item-meta">' +
-              '<span class="badge">' +
-              status +
-              "</span>" +
-              "<div>" +
-              "<div><strong>" +
-              name +
-              "</strong></div>" +
-              '<div class="muted">' +
-              date +
-              (city ? " · " + city : "") +
-              "</div>" +
-              "</div>" +
-              "</div>" +
-              '<button class="btn" onclick="event.stopPropagation();location.href=\'' +
-              href +
-              "'\">详情</button>" +
-              "</div>"
+          if (!upcoming.length) {
+            root.appendChild(E("div", "empty", "暂无即将开赛的项目"));
+            return;
+          }
+
+          upcoming.forEach((e) => {
+            const item = E("div", "time-item");
+            const dt = new Date(e.date);
+            const badge = E(
+              "div",
+              "time-badge",
+              `${String(dt.getMonth() + 1).padStart(2, "0")}/${String(
+                dt.getDate()
+              ).padStart(2, "0")}`
             );
-          })
-          .join("");
-        box.innerHTML = list;
-      }
-
-      async function renderAchievements() {
-        const box = document.getElementById("achievements-list");
-        const data = await safeFetch("./achievements_me.json");
-        if (
-          !data ||
-          !Array.isArray(data.achievements) ||
-          data.achievements.length === 0
-        ) {
-          box.innerHTML = '<div class="empty">暂无成绩或未登录</div>';
-          return;
+            const info = E("div", "");
+            info.appendChild(E("div", "", e.title || "未命名赛事"));
+            info.appendChild(E("div", "muted", e.location || "地点待定"));
+            item.append(badge, info);
+            root.appendChild(item);
+          });
+        } catch (err) {
+          root.appendChild(E("div", "error", "加载失败：" + err.message));
         }
-        const list = data.achievements
-          .slice(0, 3)
-          .map(function (a) {
-            const name = a.event_name || a.name || "赛事";
-            const rank = (a.rank || a.position) ?? "—";
-            const time = a.time_ms ? msToTime(a.time_ms) : a.time || "—";
-            const cover = a.cover || "https://picsum.photos/seed/cert/80/80";
-            const cat = a.category || a.distance || "";
-            const date = a.date || "";
-            return (
-              '<div class="list-item clickable" onclick="location.href=\'/me/achievements.html\'">' +
-              '<div class="item-meta">' +
-              '<img class="avatar" src="' +
-              cover +
-              '" alt="cover" />' +
-              "<div>" +
-              "<div><strong>" +
-              name +
-              "</strong></div>" +
-              '<div class="muted">' +
-              [date, cat, "名次 " + rank, "成绩 " + time]
-                .filter(Boolean)
-                .join(" · ") +
-              "</div>" +
-              "</div>" +
-              "</div>" +
-              '<button class="btn link" onclick="event.stopPropagation();location.href=\'/me/achievements.html\'">详情</button>' +
-              "</div>"
-            );
-          })
-          .join("");
-        box.innerHTML = list;
       }
 
-      async function renderProfile() {
-        const data = await safeFetch("./achievements_me.json");
-        if (!data || !data.profile) return;
-        const p = data.profile;
-        var nick = document.getElementById("profile-nickname");
-        var uid = document.getElementById("profile-uid");
-        var ava = document.getElementById("profile-avatar");
-        if (p.nickname) nick.innerHTML = "<strong>" + p.nickname + "</strong>";
-        if (p.uid) uid.textContent = p.uid;
-        if (p.avatar) ava.src = p.avatar;
-        const finished = Array.isArray(data.achievements)
-          ? data.achievements.length
-          : 0;
-        const pbCount = Array.isArray(data.achievements)
-          ? data.achievements.filter(function (x) {
-              return x.pb === true;
-            }).length
-          : 0;
-        document.getElementById("stat-finished").textContent = finished;
-        document.getElementById("stat-pb").textContent = pbCount;
+      // 榜单 -> 使用 achievements_me.json 简单演示
+      async function loadRank() {
+        const tbody = document.getElementById("rank-body");
+        tbody.innerHTML = "";
+        try {
+          const list = await j("./data/achievements_me.json");
+          if (!Array.isArray(list) || !list.length) {
+            const tr = document.createElement("tr");
+            const td = document.createElement("td");
+            td.colSpan = 5;
+            td.className = "muted";
+            td.textContent = "暂无榜单数据";
+            tr.appendChild(td);
+            tbody.appendChild(tr);
+            return;
+          }
+          list.slice(0, 8).forEach((a, i) => {
+            const tr = document.createElement("tr");
+            const cols = [
+              a.rank || i + 1,
+              a.team || a.event || "队伍",
+              a.category || "项目",
+              a.result || "-",
+              a.event || "-",
+            ];
+            cols.forEach((txt) => {
+              const td = document.createElement("td");
+              td.textContent = txt;
+              tr.appendChild(td);
+            });
+            tbody.appendChild(tr);
+          });
+        } catch (err) {
+          const tr = document.createElement("tr");
+          const td = document.createElement("td");
+          td.colSpan = 5;
+          td.textContent = "加载失败：" + err.message;
+          tr.appendChild(td);
+          tbody.appendChild(tr);
+        }
       }
 
-      renderEvents();
-      renderAchievements();
-      renderProfile();
+      loadEvents();
+      loadUpcoming();
+      loadRank();
     </script>
   </body>
 </html>

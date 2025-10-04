@@ -1,463 +1,73 @@
-<!-- create-event.html -->
 <!DOCTYPE html>
 <html lang="zh-CN">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width,initial-scale=1" />
     <title>创建赛事 - 桨刻</title>
-    <link rel="stylesheet" href="./assets/styles.css" />
+    <link rel="icon" href="./assets/favicon.ico" />
     <link rel="stylesheet" href="./assets/c-portal.css" />
   </head>
   <body>
-    <header class="site-header">
-      <div class="container">
-        <a class="brand" href="./index.html">浆刻 Jiangke</a>
-        <nav class="nav">
-          <a href="./events.html">赛事</a>
-          <a href="./results.html">战绩</a>
-          <a href="./orgs.html">主办方</a>
-          <a class="active" href="./create-event.html">创建赛事</a>
-        </nav>
-      </div>
+    <header class="container header">
+      <div class="brand"><a href="./index.html">桨刻</a></div>
+      <nav class="nav">
+        <a href="./index.html">首页</a>
+        <a href="./create-event.html" class="active">创建赛事</a>
+      </nav>
     </header>
 
     <main class="container">
-      <div class="page-header">
-        <h1>创建你的首场赛事</h1>
-        <p>
-          填写以下信息，我们将为你开通赛事工作台。也可先预约演示，了解完整能力。
-        </p>
-      </div>
-
       <section class="card">
+        <h1>创建你的首场赛事</h1>
         <form id="evt" class="form">
           <div class="row">
             <div>
-              <label for="org_name">主办方名称</label>
-              <input
-                id="org_name"
-                name="org_name"
-                type="text"
-                placeholder="如：桨刻赛事组委会"
-                required
-              />
+              <label>赛事名称</label
+              ><input name="title" placeholder="如：2025 杯公开赛" required />
             </div>
             <div>
-              <label for="contact">联系人姓名</label>
-              <input
-                id="contact"
-                name="contact"
-                type="text"
-                placeholder="如：张三"
-                required
-              />
+              <label>比赛日期</label><input name="date" type="date" required />
             </div>
           </div>
-
           <div class="row">
             <div>
-              <label for="phone"
-                >手机号 <span class="tip">用于开通通知</span></label
-              >
-              <input
-                id="phone"
-                name="phone"
-                type="tel"
-                inputmode="numeric"
-                placeholder="11位手机号"
-                required
-              />
+              <label>举办城市</label
+              ><input name="location" placeholder="城市/赛场" />
             </div>
             <div>
-              <label for="email"
-                >邮箱 <span class="tip">用于发送操作指引</span></label
-              >
-              <input
-                id="email"
-                name="email"
-                type="email"
-                placeholder="name@example.com"
-              />
+              <label>联系人</label
+              ><input name="contact" placeholder="姓名或手机号" />
             </div>
           </div>
-
-          <div class="row">
-            <div>
-              <label for="event_name">赛事名称</label>
-              <input
-                id="event_name"
-                name="event_name"
-                type="text"
-                placeholder="如：XX龙舟公开赛"
-                required
-              />
-            </div>
-            <div>
-              <label for="sport">项目</label>
-              <select id="sport" name="sport" required>
-                <option value="">请选择</option>
-                <option value="dragonboat">龙舟</option>
-                <option value="kayak">皮划艇</option>
-                <option value="rowing">赛艇</option>
-                <option value="sup">桨板</option>
-              </select>
-            </div>
-          </div>
-
-          <div class="row">
-            <div>
-              <label for="city">城市</label>
-              <input
-                id="city"
-                name="city"
-                type="text"
-                placeholder="如：广州"
-                required
-              />
-            </div>
-            <div>
-              <label for="venue">水域/场地</label>
-              <input
-                id="venue"
-                name="venue"
-                type="text"
-                placeholder="如：千灯湖"
-                required
-              />
-            </div>
-          </div>
-
-          <div class="row">
-            <div>
-              <label for="start_date">开始日期</label>
-              <input
-                id="start_date"
-                name="start_date"
-                type="date"
-                value=""
-                required
-              />
-            </div>
-            <div>
-              <label for="scale">规模</label>
-              <select id="scale" name="scale">
-                <option value="">未确定</option>
-                <option value="<=100">≤ 100人</option>
-                <option value="100-500">100 - 500人</option>
-                <option value="500-2000">500 - 2000人</option>
-                <option value=">2000">≥ 2000人</option>
-              </select>
-            </div>
-          </div>
-
-          <div class="row-full">
-            <label for="note">需求与备注</label>
-            <textarea
-              id="note"
-              name="note"
+          <div>
+            <label>赛事简介</label
+            ><textarea
+              name="desc"
               rows="4"
-              placeholder="例如：需要设备对接/电子证书/线上检录/成绩直播等"
+              placeholder="一句话介绍亮点"
             ></textarea>
           </div>
-
-          <div
-            id="msg"
-            class="alert success"
-            style="display: none; margin-top: 4px"
-          >
-            提交成功！我们已收到你的信息，将尽快联系你。
-          </div>
-
-          <div class="form-actions actions">
-            <button type="submit" class="btn primary">立即开通（提交）</button>
-            <a class="btn ghost" href="mailto:bd@jiangke.net?subject=预约演示"
-              >预约演示</a
-            >
-            <span class="form-status muted"
-              >提交后，我们会在 1 个工作日内联系你开通。也可直接邮件至
-              <a href="mailto:bd@jiangke.net">bd@jiangke.net</a></span
-            >
+          <div class="actions">
+            <button type="submit" class="btn primary">提交创建</button>
+            <a class="btn" href="./index.html">返回首页</a>
           </div>
         </form>
       </section>
     </main>
 
-    <footer class="site-footer">
-      <div class="container">
-        <div>© 2025 桨刻 · 水上赛事平台</div>
-        <div class="muted">
-          由 ××文化科技有限公司提供服务 · 备案号 粤ICP备XXXX号
-        </div>
-      </div>
+    <footer class="container footer">
+      <span class="muted">© 2025 Jiangke</span>
     </footer>
 
     <script>
-      // 初始化日期默认值为今天
-      (function setToday() {
-        const el = document.getElementById("start_date");
-        if (!el) return;
-        const d = new Date();
-        const y = d.getFullYear();
-        const m = String(d.getMonth() + 1).padStart(2, "0");
-        const day = String(d.getDate()).padStart(2, "0");
-        el.value = `${y}-${m}-${day}`;
-      })();
-
-      const form = document.getElementById("evt");
-      const msg = document.getElementById("msg");
-      const fields = [
-        "org_name",
-        "contact",
-        "phone",
-        "email",
-        "event_name",
-        "sport",
-        "city",
-        "venue",
-        "start_date",
-      ];
-
-      fields.forEach((id) => {
-        const el = document.getElementById(id);
-        if (!el) return;
-        el.addEventListener("blur", () =>
-          mark(el, !validateField(id, el.value))
-        );
-      });
-
-      form.addEventListener("submit", (e) => {
+      document.getElementById("evt")?.addEventListener("submit", (e) => {
         e.preventDefault();
-        const data = Object.fromEntries(new FormData(form).entries());
-        const errors = validate(data);
-
-        // 清旧态
-        fields.forEach((id) => mark(document.getElementById(id), false));
-
-        if (errors.length) {
-          errors.forEach((e) => mark(document.getElementById(e.id), true));
-          const first = document.getElementById(errors[0].id);
-          if (first)
-            first.scrollIntoView({ behavior: "smooth", block: "center" });
-          alert("请检查：\n" + errors.map((e) => e.msg).join("\n"));
-          return;
-        }
-
-        // 这里先本地存储模拟提交，你可替换为真实接口
-        const key = "jk_lead_" + Date.now();
-        localStorage.setItem(key, JSON.stringify(data));
-        showMsg("提交成功！我们已收到你的信息，将尽快联系你。", "success");
-        form.reset();
+        const data = Object.fromEntries(
+          new FormData(e.currentTarget).entries()
+        );
+        console.log("创建赛事参数：", data);
+        alert("已提交（示例页不做真实提交）");
       });
-
-      function validate(d) {
-        const errs = [];
-        const push = (id, msg) => errs.push({ id, msg });
-        if (!d.org_name) push("org_name", "主办方名称必填");
-        if (!d.contact) push("contact", "联系人必填");
-        if (!/^(1\\d{10})$/.test(d.phone || ""))
-          push("phone", "手机号格式不正确");
-        if (d.email && !/^\\S+@\\S+\\.\\S+$/.test(d.email))
-          push("email", "邮箱格式不正确");
-        if (!d.event_name) push("event_name", "赛事名称必填");
-        if (!d.sport) push("sport", "项目必选");
-        if (!d.city) push("city", "城市必填");
-        if (!d.venue) push("venue", "场地必填");
-        if (!d.start_date) push("start_date", "开始日期必选");
-        return errs;
-      }
-      function validateField(id, val) {
-        switch (id) {
-          case "org_name":
-          case "contact":
-          case "event_name":
-          case "city":
-          case "venue":
-            return !!(val && String(val).trim());
-          case "sport":
-            return !!val;
-          case "phone":
-            return /^(1\\d{10})$/.test(val || "");
-          case "email":
-            return !val || /^\\S+@\\S+\\.\\S+$/.test(val);
-          case "start_date":
-            return !!val;
-          default:
-            return true;
-        }
-      }
-      function mark(el, invalid) {
-        if (!el) return;
-        el.classList.toggle("error", !!invalid);
-      }
-      function showMsg(text, type) {
-        msg.textContent = text;
-        msg.className = "alert " + (type || "success");
-        msg.style.display = "block";
-        setTimeout(() => {
-          msg.style.display = "none";
-        }, 6000);
-        msg.scrollIntoView({ behavior: "smooth" });
-      }
     </script>
-  </body>
-</html>
-
-<!-- help/index.html -->
-<!DOCTYPE html>
-<html lang="zh-CN">
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width,initial-scale=1" />
-    <title>帮助中心 - 桨刻</title>
-    <link rel="stylesheet" href="../assets/styles.css" />
-    <link rel="stylesheet" href="../assets/c-portal.css" />
-  </head>
-  <body>
-    <header class="site-header">
-      <div class="container">
-        <a class="brand" href="../index.html">浆刻 Jiangke</a>
-        <nav class="nav">
-          <a href="../events.html">赛事</a>
-          <a href="../results.html">战绩</a>
-          <a href="../orgs.html">主办方</a>
-          <a class="active" href="./index.html">帮助中心</a>
-        </nav>
-      </div>
-    </header>
-
-    <main class="container">
-      <div class="page-header">
-        <h1>帮助中心</h1>
-        <p>快速了解如何创建赛事、报名、检录与成绩发布等常见流程。</p>
-      </div>
-
-      <section class="cards">
-        <a class="card-sm" href="./article.html#setup">
-          <h3>快速开始：创建赛事</h3>
-          <p class="muted">从提交信息到获得工作台的标准流程与注意事项。</p>
-        </a>
-        <a class="card-sm" href="./article.html#signup">
-          <h3>参赛报名与分组</h3>
-          <p class="muted">个人/团队报名、成员导入、分组与缴费说明。</p>
-        </a>
-        <a class="card-sm" href="./article.html#checkin">
-          <h3>检录与计时设备</h3>
-          <p class="muted">检录方式、设备对接与常见问题处理。</p>
-        </a>
-        <a class="card-sm" href="./article.html#live">
-          <h3>成绩直播与公告</h3>
-          <p class="muted">成绩发布、直播看板、异常成绩复核流程。</p>
-        </a>
-      </section>
-
-      <section class="card" style="margin-top: 16px">
-        <div class="row" style="align-items: center">
-          <div>
-            <h2 style="margin: 0 0 6px">没找到想要的答案？</h2>
-            <p class="muted" style="margin: 0">
-              你可以通过邮件联系我们的支持团队，或预约演示获取一对一指引。
-            </p>
-          </div>
-          <div class="actions" style="justify-content: flex-end">
-            <a class="btn ghost" href="mailto:support@jiangke.net">邮件支持</a>
-            <a class="btn primary" href="mailto:bd@jiangke.net?subject=预约演示"
-              >预约演示</a
-            >
-          </div>
-        </div>
-      </section>
-    </main>
-
-    <footer class="site-footer">
-      <div class="container">
-        <div>© 2025 桨刻 · 水上赛事平台</div>
-        <div class="muted">
-          由 ××文化科技有限公司提供服务 · 备案号 粤ICP备XXXX号
-        </div>
-      </div>
-    </footer>
-  </body>
-</html>
-
-<!-- help/article.html -->
-<!DOCTYPE html>
-<html lang="zh-CN">
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width,initial-scale=1" />
-    <title>帮助文档 - 桨刻</title>
-    <link rel="stylesheet" href="../assets/styles.css" />
-    <link rel="stylesheet" href="../assets/c-portal.css" />
-  </head>
-  <body>
-    <header class="site-header">
-      <div class="container">
-        <a class="brand" href="../index.html">浆刻 Jiangke</a>
-        <nav class="nav">
-          <a href="../events.html">赛事</a>
-          <a href="../results.html">战绩</a>
-          <a href="../orgs.html">主办方</a>
-          <a class="active" href="./index.html">帮助中心</a>
-        </nav>
-      </div>
-    </header>
-
-    <main
-      class="container"
-      style="display: grid; grid-template-columns: 260px 1fr; gap: 16px"
-    >
-      <aside class="toc">
-        <strong class="muted" style="display: block; margin-bottom: 6px"
-          >目录</strong
-        >
-        <a href="#setup">快速开始：创建赛事</a>
-        <a href="#signup">参赛报名与分组</a>
-        <a href="#checkin">检录与计时设备</a>
-        <a href="#live">成绩直播与公告</a>
-      </aside>
-
-      <article class="card article">
-        <h1 id="setup">快速开始：创建赛事</h1>
-        <p>
-          在创建赛事前，请准备好主办方名称、联系人与联系方式、赛事名称、城市、水域/场地、预计开始日期等基础信息。
-        </p>
-        <ul>
-          <li>进入“创建赛事”页面，按指引填写表单。</li>
-          <li>提交后 1 个工作日内我们会联系你，开通赛事工作台。</li>
-          <li>
-            如需加速，请直接邮件
-            <a href="mailto:bd@jiangke.net">bd@jiangke.net</a>。
-          </li>
-        </ul>
-
-        <h2 id="signup">参赛报名与分组</h2>
-        <p>
-          支持个人或团队报名，可通过 Excel/CSV
-          导入成员信息。创建项目分组后，可配置费用与截止时间。
-        </p>
-
-        <h2 id="checkin">检录与计时设备</h2>
-        <p>支持二维码检录与设备对接。现场部署前建议做一次全链路模拟。</p>
-
-        <h2 id="live">成绩直播与公告</h2>
-        <p>
-          系统将自动汇总成绩并实时展示。你可以发布公告与异常说明，确保参赛队伍及时知悉变更。
-        </p>
-
-        <div class="actions" style="margin-top: 12px">
-          <a class="btn ghost" href="./index.html">返回帮助首页</a>
-          <a class="btn primary" href="../create-event.html">去创建赛事</a>
-        </div>
-      </article>
-    </main>
-
-    <footer class="site-footer">
-      <div class="container">
-        <div>© 2025 桨刻 · 水上赛事平台</div>
-        <div class="muted">
-          由 珠海横琴意诚格物文体发展有限公司提供服务 · 备案号 粤ICP备XXXX号
-        </div>
-      </div>
-    </footer>
   </body>
 </html>
